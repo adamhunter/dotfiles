@@ -52,7 +52,7 @@ namespace :dotfiles do
       link      "#{home}/.zsh/#{theme}", "#{home}/.oh-my-zsh/custom/themes/#{theme}"
       link      "#{root}/tmux.conf",     "#{home}/.tmux.conf"
 
-      log       "\n\n Now run `source #{home}/.zshrc`\n"
+      log       "\n\n Now run `source #{home}/.zshrc`\n\n"
     end
   end
 end
