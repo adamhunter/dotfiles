@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='/Users/adamhunter/Studio/adamhunter/dotfiles'
+let g:netrw_dirhist_2='/Users/adamhunter/Studio/adamhunter/dotfiles-nathanl'
+let g:netrw_dirhist_3='/Users/adamhunter/Studio/adamhunter/dotfiles'
+let g:netrw_dirhist_4='/Users/adamhunter/Studio/adamhunter/dotfiles-nathanl'
+let g:netrw_dirhist_5='/Users/adamhunter/Studio/adamhunter/dotfiles/oh-my-zsh'
+let g:netrw_dirhist_6='/Users/adamhunter/Studio/adamhunter/dotfiles'

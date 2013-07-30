@@ -2,21 +2,13 @@ require 'fileutils'
 
 class Installer
   include FileUtils
-  methods = %w[cd pwd mkdir mkdir_p rmdir ln ln_s ln_sf cp cp_r mv rm rm_r rm_rf install chmod chmod_R chown chown_R touch]
-  methods.each do |method|
-    class_eval <<-RUBY, __FILE__, __LINE__ + 1
-      def #{method}(*args)
-        log "#{method} \#{args.map(&:inspect).join(', ')}"
-        super
-      end
-    RUBY
-  end
 
-  attr_accessor :home, :root, :stdout, :stderr
+  attr_accessor :home, :root, :theme, :stdout, :stderr
 
   def initialize
     self.home   = %x[echo ~].chomp
     self.root   = File.expand_path('..', __FILE__)
+    self.theme  = "agnoster2.zsh-theme"
     self.stdout = STDOUT
     self.stderr = STDERR
   end
@@ -29,12 +21,18 @@ class Installer
     messages.each { |message| stdout.puts message }
   end
 
-  def link_dir(*names)
-    names.each { |name| ln_s "#{root}/#{name}", "#{home}/.#{name}", force: true }
+  def link_dirs(names)
+    names.each { |name| link "#{root}/#{name}", "#{home}/.#{name}" }
   end
 
-  def link_rc(*names)
-    names.each { |name| ln_s "#{home}/.#{name}/#{name}rc", "#{home}/.#{name}rc", force: true }
+  def link_rcs(names)
+    names.each { |name| link "#{home}/.#{name}/#{name}rc", "#{home}/.#{name}rc" }
+  end
+
+  def link(source, destination)
+    log "linking #{source} to #{destination}..."
+    rm destination if File.exist? destination
+    ln_sf source, destination
   end
 
   def run(command)
@@ -47,10 +45,14 @@ namespace :dotfiles do
   desc "install dotfiles"
   task :install do
     Installer.run do
-      log      "Installing into #{home} from #{root}..."
-      link_dir *%w[oh-my-zsh zsh vim]
-      link_rc  *%w[zsh vim]
-      log      "run `source #{home}/.zshrc`"
+      log       "Installing into #{home} from #{root}..."
+
+      link_dirs %w[oh-my-zsh zsh vim bin]
+      link_rcs  %w[zsh vim]
+      link      "#{home}/.zsh/#{theme}", "#{home}/.oh-my-zsh/custom/themes/#{theme}"
+      link      "#{root}/tmux.conf",     "#{home}/.tmux.conf"
+
+      log       "\n\n Now run `source #{home}/.zshrc`\n"
     end
   end
 end

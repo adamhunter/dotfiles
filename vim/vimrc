@@ -8,6 +8,107 @@ set number
 set background=dark
 colorscheme solarized
 let g:solarized_termtrans=1
+" Let F5 trigger changing Solarized themes
+call togglebg#map("<F5>")
 
-" miscellaneous
+" **************** CONVENIENCE MAPPINGS ************  
+" Set the leader key to comma (normally, it's "\")
+let mapleader = ","
+"
+" Ctrl-L recolors the screen when it gets confused.
+noremap <c-l> <c-l>:syntax sync fromstart<CR>
+inoremap <c-l> <esc><c-l>:syntax sync fromstart<CR>a
+
+" ****************** SCROLLING *********************  
+set scrolloff=8      " Number of lines from vertical edge to start scrolling
+set sidescrolloff=15 " Number of cols from horizontal edge to start scrolling
+set sidescroll=1     " Number of cols to scroll at a time
+
+" ****************** SPLITTING *********************  
+set splitright " vsplit makes new pane to the right (not left)
+set splitbelow " split  makes new pane below (not above)
+
+" ****************** SEARCHING *********************  
+set incsearch     " do incremental searching
+set ignorecase    " do case-insensitive searches
+set smartcase     " ... unless the search contains upper-case characters
+set hlsearch      " highlight all matched terms
+" Pressing return clears highlighted search
+:nnoremap <CR> :nohlsearch<CR>/<BS>
+" Pressing control + return also clears (for use in NERDTree)
+:nnoremap <c-CR> :nohlsearch<CR>/<BS>
+
+" ***************** TABS ***************************  
+" Usually, you want 2 spaces per tab, so these lines make this the default.
+" There are ways to make vi do clever things with tabs in different
+" situations, like MS Word can, but I *always* want tab to behave the same way
+" -- so I set all three of these tab-related values the same.
+" (To overrride these per file type, put commands in .vim/ftplugin/)
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set expandtab " insert spaces instead of tab characters
+set smarttab  " backspace over a tab will remove a tab's worth of space
+
+" *********** DISPLAYING HIDDEN CHARACTERS *********
+" Beautify display of hidden characters (tabs, line breaks, etc).
+" (`:set list!` to toggle display; `:help listchars` for info )
+set listchars=nbsp:☠,trail:⋅,tab:▸\ ,eol:¬,extends:❯,precedes:❮
+
+" ************ CtrlP (File Finder) ****************
+" - Pressing <control + p> starts it.
+" - <ctrl + j/k> moves between matches. 
+" - Enter opens. <ctrl + t> opens in same tab (with config below).
+" - ctrl+f changes modes. MRU means 'Most Recently Used'. 
+" - <ctrl + r> toggles regexp/fuzzy search; regexp is also nice for exact filenames
+"
+" Open a single file in a new tab by default
+let g:ctrlp_prompt_mappings = {'AcceptSelection("e")': ['<c-t>'], 'AcceptSelection("t")': ['<cr>', '2-LeftMouse'], }
+" Open new files in a new tab
+let g:ctrlp_open_new_file = 't'
+" Open multiple files in new tabs and jump to the first one
+let g:ctrlp_open_multiple_files = 'tj'
+
+" From Nathan's section of the gvim
+set textwidth=78
+
+"** When indenting in visual mode, return to visual mode **
+" indent with > or tab
+vmap > >gv
+vmap <tab> >gv
+" outdent with < or shift-tab
+vmap < <gv
+vmap <S-Tab> <gv
+" Shift-tab in insert mode is a backspace (unindent)
+imap <S-Tab> <BS>
+
+" Control+h produces a hashrocket
+imap <C-h> <Space>=><Space>
+
+" Always show line numbers
+set number
+
+" Move lines up and down
+nmap <C-J> :m +1 <CR>
+nmap <C-K> :m -2 <CR>
+
+" Duplicate a selection
+" Visual mode: D
+vmap D y'>p
+
+" Visually select the text that was last edited/pasted with 'gV'
+" (This is based on the standard 'gv', which repeats the last selection)
+nnoremap <expr> gV '`[' . strpart(getregtype(), 0, 1) . '`]'
+
+" Inserts the path of the currently edited file into a command
+" Command mode: Ctrl+P
+cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
+
+" get jslint from http://javascriptlint.com/
+" When writing a file, if there are errors, have Syntastic plugin mark them
+" In order to check Javascript files, you must have the `jsl` executable from here
+" in your path:
+" http://www.javascriptlint.com/download.htm
+let g:syntastic_enable_signs=1
+let g:syntastic_auto_loc_list=1
 
