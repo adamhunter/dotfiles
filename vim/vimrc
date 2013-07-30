@@ -1,0 +1,13 @@
+" basic
+execute pathogen#infect()
+filetype plugin indent on
+syntax enable
+set number
+
+" solarized
+set background=dark
+colorscheme solarized
+let g:solarized_termtrans=1
+
+" miscellaneous
+
