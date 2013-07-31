@@ -69,7 +69,7 @@ prompt_context() {
 }
 
 prompt_rvm() {
-  prompt_segment blue black "$(~/.rvm/bin/rvm-prompt)"
+  prompt_segment blue black "$(~/.rvm/bin/rvm-prompt u) $(~/.rvm/bin/rvm-prompt v g)"
 }
 
 # Git: branch/detached head, dirty status

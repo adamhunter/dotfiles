@@ -46,5 +46,6 @@ source $ZSH/oh-my-zsh.sh
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" 
 
-PATH="$PATH:$HOME/.bin"
+export PATH="$PATH:$HOME/.bin"
+export EDITOR="vim"
 
