@@ -104,11 +104,5 @@ nnoremap <expr> gV '`[' . strpart(getregtype(), 0, 1) . '`]'
 " Command mode: Ctrl+P
 cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 
-" get jslint from http://javascriptlint.com/
-" When writing a file, if there are errors, have Syntastic plugin mark them
-" In order to check Javascript files, you must have the `jsl` executable from here
-" in your path:
-" http://www.javascriptlint.com/download.htm
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=1
-
