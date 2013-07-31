@@ -37,8 +37,8 @@
 [submodule "vim/powerline"]
 	path = vim/powerline
 	url = git@github.com:Lokaltog/powerline.git
-[submodule "assets/powerline"]
-	path = assets/powerline
+[submodule "lib/powerline"]
+	path = lib/powerline
 	url = git@github.com:Lokaltog/powerline.git
 [submodule "vim/bundle/tcomment"]
 	path = vim/bundle/tcomment
