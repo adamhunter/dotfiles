@@ -30,7 +30,7 @@ class Installer
   end
 
   def link(source, destination)
-    rm_sym destination
+    return unless rm_sym destination
     log "linking #{source} to #{destination}..."
     ln_sf source, destination
   end
@@ -50,9 +50,16 @@ class Installer
     if File.symlink? path
       log "Removing #{path}..."
       rm path
+      true
     else
       log "#{path} is not a symlink, skipping removal..."
       return unless File.symlink? path
+      false
     end
+  end
+
+  def handle_config_dir
+    return unless File.directory? "#{home}/.config"
+    link "#{root}/config/powerline", "#{home}/.config/powerline"
   end
 end
