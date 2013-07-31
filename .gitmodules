@@ -46,3 +46,6 @@
 [submodule "vim/bundle/solarized-powerline"]
 	path = vim/bundle/solarized-powerline
 	url = git@github.com:stephenmckinney/vim-solarized-powerline.git
+[submodule "vim/bundle/tcomment"]
+	path = vim/bundle/tcomment
+	url = git@github.com:vim-scripts/tComment.git

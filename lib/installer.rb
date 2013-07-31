@@ -37,7 +37,7 @@ class Installer
 
   def run(command)
     log command
-    exec command
+    system command
   end
 
   def mkdir(dir)

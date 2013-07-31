@@ -3,6 +3,13 @@
 " src: http://vim.wikia.com/wiki/Smart_mapping_for_tab_completion
 " A different approach to completion is here:
 " https://github.com/skwp/dotfiles/blob/master/vimrc
+"
+if exists('g:loaded_tabcomplete') || &compatible
+  finish
+else
+  let g:loaded_tabcomplete = 1
+endif
+
 let g:omni_support=1
 
 function! Smart_TabComplete()
