@@ -16,7 +16,7 @@ namespace :dotfiles do
       link      "#{root}/tmux.conf",     "#{home}/.tmux.conf"
 
       log       "Installing powerline..."
-      run       "cd lib/powerline && python setup.py install --root=#{home}/.python > /dev/null"
+      run       "cd lib/powerline && python setup.py install --root=#{home}/.python"
 
       log       "\n\n Now run `source #{home}/.zshrc`\n\n"
     end

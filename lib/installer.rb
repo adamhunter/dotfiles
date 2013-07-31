@@ -30,7 +30,7 @@ class Installer
   end
 
   def link(source, destination)
-    rm destination if File.exist? destination
+    rm_sym destination
     log "linking #{source} to #{destination}..."
     ln_sf source, destination
   end
@@ -46,8 +46,13 @@ class Installer
     super dir
   end
 
-  def rm(path)
-    log "Removing #{path}..."
-    super path
+  def rm_sym(path)
+    if File.symlink? path
+      log "Removing #{path}..."
+      rm path
+    else
+      log "#{path} is not a symlink, skipping removal..."
+      return unless File.symlink? path
+    end
   end
 end
