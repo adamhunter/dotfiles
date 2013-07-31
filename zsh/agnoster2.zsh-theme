@@ -61,11 +61,14 @@ prompt_end() {
 
 # Context: user@hostname (who am I and where am I)
 prompt_context() {
-  # local user=`whoami`
+  local user=`whoami`
 
-  # if [[ "$user" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
-  #   prompt_segment black default "%(!.%{%F{yellow}%}.)$user@%m"
-  # fi
+  if [[ "$user" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
+    prompt_segment black default "%(!.%{%F{yellow}%}.)$user@%m"
+  fi
+}
+
+prompt_rvm() {
   prompt_segment blue black "$(~/.rvm/bin/rvm-prompt)"
 }
 
@@ -109,7 +112,7 @@ build_prompt() {
   RETVAL=$?
   prompt_status
   prompt_dir
-  prompt_context
+  prompt_rvm
   prompt_git
   prompt_end
 }

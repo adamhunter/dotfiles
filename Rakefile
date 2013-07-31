@@ -49,6 +49,9 @@ namespace :dotfiles do
 
       link_dirs %w[oh-my-zsh zsh vim bin]
       link_rcs  %w[zsh vim]
+
+      mkdir     "#{home}/.oh-my-zsh/custom/themes"
+
       link      "#{home}/.zsh/#{theme}", "#{home}/.oh-my-zsh/custom/themes/#{theme}"
       link      "#{root}/tmux.conf",     "#{home}/.tmux.conf"
 
