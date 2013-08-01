@@ -43,3 +43,6 @@
 [submodule "vim/bundle/tcomment"]
 	path = vim/bundle/tcomment
 	url = git@github.com:vim-scripts/tComment.git
+[submodule "assets/gnome-terminal-solarized"]
+	path = assets/gnome-terminal-solarized
+	url = git@github.com:sigurdga/gnome-terminal-colors-solarized.git
