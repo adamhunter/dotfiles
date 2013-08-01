@@ -28,6 +28,8 @@
 
 CURRENT_BG='NONE'
 SEGMENT_SEPARATOR='⮀'
+L_SEGMENT_SEPARATOR='⮀'
+R_SEGMENT_SEPARATOR='⮂'
 
 # Begin a segment
 # Takes two arguments, background and foreground. Both can be omitted,
