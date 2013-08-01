@@ -47,7 +47,10 @@ class Installer
   end
 
   def rm_sym(path)
-    if File.symlink? path
+    if !File.exists? path
+      log "No such symlink at #{path}, skipping removal"
+      true
+    elsif File.symlink? path
       log "Removing #{path}..."
       rm path
       true

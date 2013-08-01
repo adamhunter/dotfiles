@@ -7,7 +7,7 @@ namespace :dotfiles do
     Installer.run do
       log       "Installing into #{home} from #{root}..."
 
-      link_dirs %w[oh-my-zsh zsh vim bin python config]
+      link_dirs %w[oh-my-zsh zsh vim bin python config tmux]
       link_rcs  %w[zsh vim]
 
       handle_config_dir
@@ -15,7 +15,7 @@ namespace :dotfiles do
       mkdir     "#{home}/.oh-my-zsh/custom/themes"
 
       link      "#{home}/.zsh/#{theme}", "#{home}/.oh-my-zsh/custom/themes/#{theme}"
-      link      "#{root}/tmux.conf",     "#{home}/.tmux.conf"
+      link      "#{root}/tmux/tmux.conf",     "#{home}/.tmux.conf"
 
       log       "Installing powerline..."
       run       "cd lib/powerline && python setup.py install --root=#{home}/.python"
