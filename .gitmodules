@@ -46,3 +46,6 @@
 [submodule "assets/gnome-terminal-solarized"]
 	path = assets/gnome-terminal-solarized
 	url = git@github.com:sigurdga/gnome-terminal-colors-solarized.git
+[submodule "vim/bundle/android"]
+	path = vim/bundle/android
+	url = git@github.com:hsanson/vim-android.git
