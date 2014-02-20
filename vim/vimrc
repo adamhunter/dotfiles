@@ -19,6 +19,8 @@ let mapleader = ","
 noremap <c-l> <c-l>:syntax sync fromstart<CR>
 inoremap <c-l> <esc><c-l>:syntax sync fromstart<CR>a
 
+" Don't use swap files, they make me cranky
+set noswapfile
 " Put swapfiles in a central place instead of the current directory.
 " Vim will use the first directory that exists.
 set directory=~/.vim_swap,~/tmp,/var/tmp,$HOME/Local\ Settings/Temp 
