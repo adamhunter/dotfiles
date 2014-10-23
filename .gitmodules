@@ -49,3 +49,6 @@
 [submodule "vim/bundle/android"]
 	path = vim/bundle/android
 	url = git@github.com:hsanson/vim-android.git
+[submodule "vim/bundle/railscasts"]
+	path = vim/bundle/railscasts
+	url = git@github.com:jpo/vim-railscasts-theme.git
