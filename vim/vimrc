@@ -118,3 +118,8 @@ cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=1
 let g:syntastic_java_javac_config_file_enabled=1
+
+" Go to beginning or end of the line with C-a/C-e respectively
+" Insert Mode
+inoremap <C-e> <Esc>A
+inoremap <C-a> <Esc>I
