@@ -52,3 +52,24 @@
 [submodule "vim/bundle/railscasts"]
 	path = vim/bundle/railscasts
 	url = git@github.com:jpo/vim-railscasts-theme.git
+[submodule "vim/bundle/leiningen"]
+	path = vim/bundle/leiningen
+	url = git://github.com/tpope/vim-leiningen.git
+[submodule "vim/bundle/projectionist"]
+	path = vim/bundle/projectionist
+	url = git://github.com/tpope/vim-projectionist.git
+[submodule "vim/bundle/dispatch"]
+	path = vim/bundle/dispatch
+	url = git://github.com/tpope/vim-dispatch.git
+[submodule "vim/bundle/fireplace"]
+	path = vim/bundle/fireplace
+	url = git://github.com/tpope/vim-fireplace.git
+[submodule "vim/bundle/sexp-mappings-for-regular-people"]
+	path = vim/bundle/sexp-mappings-for-regular-people
+	url = git://github.com/tpope/vim-sexp-mappings-for-regular-people.git
+[submodule "vim/bundle/sexp"]
+	path = vim/bundle/sexp
+	url = git://github.com/guns/vim-sexp.git
+[submodule "vim/bundle/repeat"]
+	path = vim/bundle/repeat
+	url = git://github.com/tpope/vim-repeat.git
