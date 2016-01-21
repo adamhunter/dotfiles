@@ -1,3 +1,7 @@
+" utf-8
+scriptencoding utf-8
+set encoding=utf-8
+
 " basic
 execute pathogen#infect()
 filetype plugin indent on
@@ -5,13 +9,13 @@ syntax enable
 set number
 
 " solarized
-" set background=dark
-" colorscheme solarized
-" let g:solarized_termtrans=1
+set background=dark
+colorscheme solarized
+let g:solarized_termtrans=1
 " Let F5 trigger changing Solarized themes
-" call togglebg#map("<F5>")
+call togglebg#map("<F5>")
 
-colorscheme railscasts
+" colorscheme railscasts
 
 " **************** CONVENIENCE MAPPINGS ************  
 " Set the leader key to comma (normally, it's "\")
@@ -64,11 +68,12 @@ set smarttab  " backspace over a tab will remove a tab's worth of space
 " *********** DISPLAYING HIDDEN CHARACTERS *********
 " Beautify display of hidden characters (tabs, line breaks, etc).
 " (`:set list!` to toggle display; `:help listchars` for info )
-set listchars=nbsp:☠,trail:⋅,tab:▸\ ,eol:¬,extends:❯,precedes:❮
+" set listchars=nbsp:☠,trail:⋅,tab:▸\ ,eol:¬,extends:❯,precedes:❮
+set listchars=trail:⋅,tab:▸\ ,eol:¬,extends:❯,precedes:❮
 
 " ************ CtrlP (File Finder) ****************
 " - Pressing <control + p> starts it.
-" - <ctrl + j/k> moves between matches. 
+" - <ctrl + j/k> moves between matches.
 " - Enter opens. <ctrl + t> opens in same tab (with config below).
 " - ctrl+f changes modes. MRU means 'Most Recently Used'. 
 " - <ctrl + r> toggles regexp/fuzzy search; regexp is also nice for exact filenames
