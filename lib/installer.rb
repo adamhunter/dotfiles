@@ -8,7 +8,7 @@ class Installer
   def initialize
     self.home   = %x[echo ~].chomp
     self.root   = File.expand_path('../..', __FILE__)
-    self.theme  = "agnoster2.zsh-theme"
+    self.theme  = "justbake.zsh-theme"
     self.stdout = STDOUT
     self.stderr = STDERR
   end

@@ -12,6 +12,7 @@ namespace :dotfiles do
 
       handle_config_dir
 
+      mkdir     "#{home}/.oh-my-zsh/custom"
       mkdir     "#{home}/.oh-my-zsh/custom/themes"
 
       link      "#{home}/.zsh/#{theme}", "#{home}/.oh-my-zsh/custom/themes/#{theme}"
