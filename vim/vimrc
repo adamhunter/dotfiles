@@ -11,7 +11,7 @@ set number
 " Let F5 trigger changing Solarized themes
 " call togglebg#map("<F5>")
 
-colorscheme railscasts
+colorscheme justbake
 
 " **************** CONVENIENCE MAPPINGS ************  
 " Set the leader key to comma (normally, it's "\")
@@ -117,9 +117,17 @@ cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=1
-let g:syntastic_java_javac_config_file_enabled=1
 
-" Go to beginning or end of the line with C-a/C-e respectively
+" Ctrl+A start of line CTRL+E end of line
+"
 " Insert Mode
+"
 inoremap <C-e> <Esc>A
 inoremap <C-a> <Esc>I
+" Command Mode
+nnoremap <C-e> <End>
+nnoremap <C-a> <Home>
+
+
+" Set highlight mode for Capfiles,Gemfiles, and Rakefiles
+au BufRead,BufNewFile Capfile,Gemfile,Rakefile,*.rake,*.cap set filetype=ruby
