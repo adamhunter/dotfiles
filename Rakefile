@@ -23,3 +23,4 @@ namespace :dotfiles do
   end
 end
 
+task :default => "dotfiles:install"
