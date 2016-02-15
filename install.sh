@@ -21,7 +21,7 @@ if [ ! -d "${home}/.config" ]; then
 fi
 
 echo "=== Linking powerline directory"
-link -s "#{root}/config/powerline", "#{home}/.config/powerline"
+ln -s "#{root}/config/powerline", "#{home}/.config/powerline"
 
 for dir in ${link_dirs[@]}; do
 
@@ -31,22 +31,22 @@ for dir in ${link_dirs[@]}; do
  fi
 
  echo "=== Linking ${home}/${dir} to ${root}/${dir}"
- link -s "${home}/${dir} ${root}/${dir}"
+ ln -s "${home}/${dir} ${root}/${dir}"
 done
 
 for dir in ${link_rcs[@]}; do
   echo "=== Linking ${home}/.${dir}/${dir}/${dir}rc to ${home}/${dir}rc"
-  link -s "${home}/.${dir}/${dir}/${dir}rc" "${home}/${dir}rc"
+  ln -s "${home}/.${dir}/${dir}/${dir}rc" "${home}/${dir}rc"
 done
 
 echo "=== Creating directory ${home}/.oh-my-zsh/custom/themes\n"
 mkdir -p "${home}/.oh-my-zsh/custom/themes"
 
 echo "=== Linking oh-my-zsh themes from ${home}/.zsh/${theme} to ${home}/.oh-my-zsh/custom/themes/${theme}"
-link -s "${home}/.zsh/${theme}.zsh-theme", "${home}/.oh-my-zsh/custom/themes/${theme}.zsh-theme"
+ln -s "${home}/.zsh/${theme}.zsh-theme", "${home}/.oh-my-zsh/custom/themes/${theme}.zsh-theme"
 
 echo "=== Linking tmux config from ${root}/tmux/tmux.conf to${home}/.tmux.conf"
-link -s "${root}/tmux/tmux.conf", "${home}/.tmux.conf"
+ln -s "${root}/tmux/tmux.conf", "${home}/.tmux.conf"
 
 echo "\n\n Now run `source ${home}/.zshrc`\n\n"
 exit 0
