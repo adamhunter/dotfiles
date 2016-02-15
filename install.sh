@@ -6,7 +6,7 @@ theme="justbake"
 link_dirs=(oh-my-zsh zsh vim bin config tmux)
 link_rcs=(zsh vim)
 
-if [ -x `whereis brew` ] || [ ! -d "${home}/.oh-my-zsh" ]; then
+if [ ! -x `whereis brew` ] || [ ! -d "${home}/.oh-my-zsh" ]; then
   echo "=== This setup script require homebrew (http://brew.sh) and oh-my-zsh(http://ohmyz.sh) to be installed"
   exit 1
 else
