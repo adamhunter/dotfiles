@@ -1,12 +1,12 @@
 #! /usr/bin/env sh
 
-home="~"
+home=$HOME
 root=`pwd`
 theme="justbake"
 link_dirs=(oh-my-zsh zsh vim bin config tmux)
 link_rcs=(zsh vim)
 
-if [ -z `which brew` ] || [ ! -d "${home}/.oh-my-zsh" ]; then
+if [ -z `which brew` ] || [ !-d "${home}/.oh-my-zsh" ]; then
   echo "=== This setup script require homebrew (http://brew.sh) and oh-my-zsh(http://ohmyz.sh) to be installed"
   exit 1
 else
