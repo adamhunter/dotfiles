@@ -52,3 +52,6 @@
 [submodule "vim/bundle/railscasts"]
 	path = vim/bundle/railscasts
 	url = git@github.com:jpo/vim-railscasts-theme.git
+[submodule "vim/bundle/colorschemes"]
+	path = vim/bundle/colorschemes
+	url = https://github.com/flazz/vim-colorschemes.git

@@ -2,18 +2,13 @@
 execute pathogen#infect()
 filetype plugin indent on
 syntax enable
+" Always show line numbers
 set number
+set textwidth=80
 
-" solarized
-" set background=dark
-" colorscheme solarized
-" let g:solarized_termtrans=1
-" Let F5 trigger changing Solarized themes
-" call togglebg#map("<F5>")
+colorscheme guero
 
-colorscheme railscasts
-
-" **************** CONVENIENCE MAPPINGS ************  
+" **************** CONVENIENCE MAPPINGS ************
 " Set the leader key to comma (normally, it's "\")
 let mapleader = ","
 "
@@ -25,21 +20,21 @@ inoremap <c-l> <esc><c-l>:syntax sync fromstart<CR>a
 set noswapfile
 " Put swapfiles in a central place instead of the current directory.
 " Vim will use the first directory that exists.
-set directory=~/.vim_swap,~/tmp,/var/tmp,$HOME/Local\ Settings/Temp 
+set directory=~/.vim_swap,~/tmp,/var/tmp,$HOME/Local\ Settings/Temp
 
 " Same thing for backup files (see `:help backup`)
-set backupdir=~/.vim_backup,~/tmp,/var/tmp,$HOME/Local\ Settings/Temp 
+set backupdir=~/.vim_backup,~/tmp,/var/tmp,$HOME/Local\ Settings/Temp
 
-" ****************** SCROLLING *********************  
+" ****************** SCROLLING *********************
 set scrolloff=8      " Number of lines from vertical edge to start scrolling
 set sidescrolloff=15 " Number of cols from horizontal edge to start scrolling
 set sidescroll=1     " Number of cols to scroll at a time
 
-" ****************** SPLITTING *********************  
+" ****************** SPLITTING *********************
 set splitright " vsplit makes new pane to the right (not left)
 set splitbelow " split  makes new pane below (not above)
 
-" ****************** SEARCHING *********************  
+" ****************** SEARCHING *********************
 set incsearch     " do incremental searching
 set ignorecase    " do case-insensitive searches
 set smartcase     " ... unless the search contains upper-case characters
@@ -49,7 +44,7 @@ set hlsearch      " highlight all matched terms
 " Pressing control + return also clears (for use in NERDTree)
 :nnoremap <c-CR> :nohlsearch<CR>/<BS>
 
-" ***************** TABS ***************************  
+" ***************** TABS ***************************
 " Usually, you want 2 spaces per tab, so these lines make this the default.
 " There are ways to make vi do clever things with tabs in different
 " situations, like MS Word can, but I *always* want tab to behave the same way
@@ -59,7 +54,7 @@ set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 set expandtab " insert spaces instead of tab characters
-set smarttab  " backspace over a tab will remove a tab's worth of space
+"set smarttab  " backspace over a tab will remove a tab's worth of space
 
 " *********** DISPLAYING HIDDEN CHARACTERS *********
 " Beautify display of hidden characters (tabs, line breaks, etc).
@@ -81,7 +76,6 @@ let g:ctrlp_open_new_file = 't'
 let g:ctrlp_open_multiple_files = 'tj'
 
 " From Nathan's section of the gvim
-set textwidth=78
 
 "** When indenting in visual mode, return to visual mode **
 " indent with > or tab
@@ -92,12 +86,6 @@ vmap < <gv
 vmap <S-Tab> <gv
 " Shift-tab in insert mode is a backspace (unindent)
 imap <S-Tab> <BS>
-
-" Control+h produces a hashrocket
-imap <C-h> <Space>=><Space>
-
-" Always show line numbers
-set number
 
 " Move lines up and down
 nmap <C-J> :m +1 <CR>
@@ -115,6 +103,31 @@ nnoremap <expr> gV '`[' . strpart(getregtype(), 0, 1) . '`]'
 " Command mode: Ctrl+P
 cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 let g:syntastic_enable_signs=1
-let g:syntastic_auto_loc_list=1
-let g:syntastic_java_javac_config_file_enabled=1
+let g:syntastic_quiet_messages = { "type": "style" }
+let g:syntastic_html_tidy_exec = 'tidy5'
+let g:syntastic_javascript_checkers = ['eslint']
+
+" Ctrl+A start of line CTRL+E end of line
+"
+" Insert Mode
+"
+inoremap <C-e> <Esc>A
+inoremap <C-a> <Esc>I
+" Command Mode
+nnoremap <C-e> <End>
+nnoremap <C-a> <Home>
+" CTRL+x to copy in visual mode
+" CTRL+V to paste in visual mode
+vmap <C-x> :!pbcopy<CR>
+vmap <C-c> :w !pbcopy<CR><CR>
+
+" Spellcheck markdown
+autocmd BufRead,BufNewFile *.md setlocal spell
+
+" Set highlight mode for Capfiles,Gemfiles, and Rakefiles
+au BufRead,BufNewFile Capfile,Gemfile,Rakefile,*.rake,*.cap set filetype=ruby
