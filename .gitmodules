@@ -10,9 +10,6 @@
 [submodule "vim/bundle/ctrlp.vim"]
 	path = vim/bundle/ctrlp.vim
 	url = git@github.com:kien/ctrlp.vim.git
-[submodule "vim/bundle/endwise"]
-	path = vim/bundle/endwise
-	url = git@github.com:tpope/vim-endwise.git
 [submodule "vim/bundle/surround"]
 	path = vim/bundle/surround
 	url = git@github.com:tpope/vim-surround.git
@@ -28,12 +25,6 @@
 [submodule "vim/bundle/solarized"]
 	path = vim/bundle/solarized
 	url = git@github.com:altercation/vim-colors-solarized.git
-[submodule "vim/bundle/coffee-script"]
-	path = vim/bundle/coffee-script
-	url = git@github.com:kchmck/vim-coffee-script.git
-[submodule "vim/bundle/rvm"]
-	path = vim/bundle/rvm
-	url = git@github.com:tpope/vim-rvm.git
 [submodule "vim/powerline"]
 	path = vim/powerline
 	url = git@github.com:Lokaltog/powerline.git
@@ -46,9 +37,6 @@
 [submodule "assets/gnome-terminal-solarized"]
 	path = assets/gnome-terminal-solarized
 	url = git@github.com:sigurdga/gnome-terminal-colors-solarized.git
-[submodule "vim/bundle/android"]
-	path = vim/bundle/android
-	url = git@github.com:hsanson/vim-android.git
 [submodule "vim/bundle/railscasts"]
 	path = vim/bundle/railscasts
 	url = git@github.com:jpo/vim-railscasts-theme.git
