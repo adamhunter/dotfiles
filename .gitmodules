@@ -1,6 +1,9 @@
 [submodule "oh-my-zsh"]
 	path = oh-my-zsh
 	url = git://github.com/robbyrussell/oh-my-zsh.git
+[submodule "vim/bundle/nerdtree"]
+	path = vim/bundle/nerdtree
+	url = git@github.com:scrooloose/nerdtree.git[
 [submodule "vim/bundle/sensible"]
 	path = vim/bundle/sensible
 	url = git@github.com:tpope/vim-sensible.git
@@ -19,9 +22,6 @@
 [submodule "vim/bundle/flavored-markdown"]
 	path = vim/bundle/flavored-markdown
 	url = git@github.com:jtratner/vim-flavored-markdown.git
-[submodule "vim/bundle/nerdtree"]
-	path = vim/bundle/nerdtree
-	url = git@github.com:scrooloose/nerdtree.git
 [submodule "vim/bundle/solarized"]
 	path = vim/bundle/solarized
 	url = git@github.com:altercation/vim-colors-solarized.git
