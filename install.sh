@@ -3,7 +3,7 @@
 home=$HOME
 root=`pwd`
 theme="justbake"
-link_dirs=(oh-my-zsh zsh vim bin config tmux)
+link_dirs=(oh-my-zsh .zsh .vim bin config tmux)
 link_rcs=(zsh vim)
 
 if [ ! -x `brew` ] || [ ! -d "${home}/.oh-my-zsh" ]; then
@@ -35,8 +35,8 @@ for dir in ${link_dirs[@]}; do
 done
 
 for dir in ${link_rcs[@]}; do
-  echo "=== Linking ${home}/.${dir}/${dir}/${dir}rc to ${home}/${dir}rc"
-  ln -s "${home}/.${dir}/${dir}/${dir}rc" "${home}/${dir}rc"
+  echo "=== Linking ${home}/.${dir}/${dir}/.${dir}rc to ${home}/.${dir}rc"
+  ln -s "${home}/.${dir}/${dir}/.${dir}rc" "${home}/.${dir}rc"
 done
 
 echo "=== Creating directory ${home}/.oh-my-zsh/custom/themes\n"
