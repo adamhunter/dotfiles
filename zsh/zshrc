@@ -5,26 +5,10 @@ ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="sorin"
-
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# Set to this to use case-sensitive completion
-# CASE_SENSITIVE="true"
+ZSH_THEME="guero"
 
 # Comment this out to disable bi-weekly auto-update checks
 # DISABLE_AUTO_UPDATE="true"
-
-# Uncomment to change how often before auto-updates occur? (in days)
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment following line if you want to disable colors in ls
-# DISABLE_LS_COLORS="true"
-
-# Uncomment following line if you want to disable autosetting terminal title.
-# DISABLE_AUTO_TITLE="true"
 
 # Uncomment following line if you want to disable command autocorrection
 DISABLE_CORRECTION="true"
@@ -37,16 +21,30 @@ DISABLE_CORRECTION="true"
 # much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(git osx)
 
 set -k
+setopt rcquotes
+
+# Helpful aliases
+alias b="bundle"
+alias n="node"
+alias nye="npm i" # bill bill bill!
+alias :q="exit"
+alias :l="tail -n1000 -f $@"
+alias :p="ps aux | grep -v grep | grep $@ -i --color=auto"
+
+export EDITOR='vim'
+
+# default filetype actions
+alias -s js="vim"
+alias -s jsx="vim"
+alias -s coffee="vim"
+alias -s rb="vim"
+alias -s haml="vim"
+alias -s pdf="open"
 
 source $ZSH/oh-my-zsh.sh
 
 source "$HOME/.zsh/aliases.zsh"
 source "$HOME/.zsh/exports.zsh"
-source "$HOME/.zsh/rvm.zsh"
-
