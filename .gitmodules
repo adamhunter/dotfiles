@@ -79,3 +79,12 @@
 [submodule "vim/bundle/scala"]
 	path = vim/bundle/scala
 	url = git@github.com:derekwyatt/vim-scala.git
+[submodule "vim/bundle/graphql"]
+	path = vim/bundle/graphql
+	url = git@github.com:jparise/vim-graphql.git
+[submodule "vim/bundle/jsx"]
+	path = vim/bundle/jsx
+	url = git@github.com:mxw/vim-jsx.git
+[submodule "vim/bundle/javascript"]
+	path = vim/bundle/javascript
+	url = git@github.com:pangloss/vim-javascript.git

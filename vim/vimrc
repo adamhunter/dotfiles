@@ -125,3 +125,5 @@ let g:syntastic_auto_loc_list=1
 let g:syntastic_java_javac_config_file_enabled=1
 
 let g:vim_markdown_folding_disabled=1
+
+let g:jsx_ext_required = 0 " Allow JSX in normal JS files
