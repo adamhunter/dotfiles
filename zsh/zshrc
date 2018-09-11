@@ -50,3 +50,6 @@ source "$HOME/.zsh/aliases.zsh"
 source "$HOME/.zsh/exports.zsh"
 source "$HOME/.zsh/rvm.zsh"
 
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
