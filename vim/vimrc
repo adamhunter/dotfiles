@@ -85,6 +85,9 @@ let g:ctrlp_open_new_file = 't'
 " Open multiple files in new tabs and jump to the first one
 let g:ctrlp_open_multiple_files = 'tj'
 
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
+
+
 " From Nathan's section of the gvim
 set textwidth=78
 
@@ -127,3 +130,6 @@ let g:syntastic_java_javac_config_file_enabled=1
 let g:vim_markdown_folding_disabled=1
 
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
+
+set timeoutlen=1000 ttimeoutlen=0
+
