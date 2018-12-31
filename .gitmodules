@@ -94,3 +94,6 @@
 [submodule "vim/bundle/typescript"]
 	path = vim/bundle/typescript
 	url = https://github.com/leafgarland/typescript-vim.git
+[submodule "vim/bundle/swift"]
+	path = vim/bundle/swift
+	url = git@github.com:keith/swift.vim.git
