@@ -60,9 +60,4 @@ class Installer
       false
     end
   end
-
-  def handle_config_dir
-    return unless File.directory? "#{home}/.config"
-    link "#{root}/config/powerline", "#{home}/.config/powerline"
-  end
 end
