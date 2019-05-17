@@ -7,7 +7,7 @@ namespace :dotfiles do
     Installer.run do
       log       "Installing into #{home} from #{root}..."
 
-      link_dirs %w[oh-my-zsh zsh vim bin config tmux]
+      link_dirs %w[oh-my-zsh zsh vim bin tmux]
       link_rcs  %w[zsh vim]
 
       handle_config_dir
