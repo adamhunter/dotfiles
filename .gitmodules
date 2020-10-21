@@ -82,9 +82,6 @@
 [submodule "vim/bundle/graphql"]
 	path = vim/bundle/graphql
 	url = git@github.com:jparise/vim-graphql.git
-[submodule "vim/bundle/jsx"]
-	path = vim/bundle/jsx
-	url = git@github.com:mxw/vim-jsx.git
 [submodule "vim/bundle/javascript"]
 	path = vim/bundle/javascript
 	url = git@github.com:pangloss/vim-javascript.git
@@ -103,3 +100,6 @@
 [submodule "vim/bundle/ale"]
 	path = vim/bundle/ale
 	url = git@github.com:dense-analysis/ale.git
+[submodule "vim-jsx-pretty"]
+	path = vim-jsx-pretty
+	url = git@github.com:MaxMEllon/vim-jsx-pretty.git
