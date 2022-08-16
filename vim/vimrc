@@ -10,8 +10,9 @@ set number
 
 " solarized
 set background=dark
+let g:solarized_termcolors=256
 colorscheme solarized
-let g:solarized_termtrans=1
+let g:solarized_termtrans=2
 " Let F5 trigger changing Solarized themes
 call togglebg#map("<F5>")
 
@@ -133,3 +134,4 @@ let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 
 set timeoutlen=1000 ttimeoutlen=0
 
+set visualbell
