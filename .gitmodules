@@ -1,105 +1,105 @@
 [submodule "oh-my-zsh"]
 	path = oh-my-zsh
-	url = git://github.com/robbyrussell/oh-my-zsh.git
+	url = https://github.com/robbyrussell/oh-my-zsh.git
 [submodule "vim/bundle/sensible"]
 	path = vim/bundle/sensible
-	url = git@github.com:tpope/vim-sensible.git
+	url = https://github.com/tpope/vim-sensible.git
 [submodule "vim/bundle/syntastic"]
 	path = vim/bundle/syntastic
-	url = git@github.com:scrooloose/syntastic.git
+	url = https://github.com/scrooloose/syntastic.git
 [submodule "vim/bundle/ctrlp.vim"]
 	path = vim/bundle/ctrlp.vim
-	url = git@github.com:kien/ctrlp.vim.git
+	url = https://github.com/kien/ctrlp.vim.git
 [submodule "vim/bundle/endwise"]
 	path = vim/bundle/endwise
-	url = git@github.com:tpope/vim-endwise.git
+	url = https://github.com/tpope/vim-endwise.git
 [submodule "vim/bundle/surround"]
 	path = vim/bundle/surround
-	url = git@github.com:tpope/vim-surround.git
+	url = https://github.com/tpope/vim-surround.git
 [submodule "vim/bundle/tabular"]
 	path = vim/bundle/tabular
-	url = git@github.com:godlygeek/tabular.git
+	url = https://github.com/godlygeek/tabular.git
 [submodule "vim/bundle/flavored-markdown"]
 	path = vim/bundle/flavored-markdown
-	url = git@github.com:jtratner/vim-flavored-markdown.git
+	url = https://github.com/jtratner/vim-flavored-markdown.git
 [submodule "vim/bundle/nerdtree"]
 	path = vim/bundle/nerdtree
-	url = git@github.com:scrooloose/nerdtree.git
+	url = https://github.com/scrooloose/nerdtree.git
 [submodule "vim/bundle/solarized"]
 	path = vim/bundle/solarized
-	url = git@github.com:altercation/vim-colors-solarized.git
+	url = https://github.com/altercation/vim-colors-solarized.git
 [submodule "vim/bundle/coffee-script"]
 	path = vim/bundle/coffee-script
-	url = git@github.com:kchmck/vim-coffee-script.git
+	url = https://github.com/kchmck/vim-coffee-script.git
 [submodule "vim/bundle/rvm"]
 	path = vim/bundle/rvm
-	url = git@github.com:tpope/vim-rvm.git
+	url = https://github.com/tpope/vim-rvm.git
 [submodule "vim/powerline"]
 	path = vim/powerline
-	url = git@github.com:Lokaltog/powerline.git
+	url = https://github.com/Lokaltog/powerline.git
 [submodule "lib/powerline"]
 	path = lib/powerline
-	url = git@github.com:Lokaltog/powerline.git
+	url = https://github.com/Lokaltog/powerline.git
 [submodule "vim/bundle/tcomment"]
 	path = vim/bundle/tcomment
-	url = git@github.com:vim-scripts/tComment.git
+	url = https://github.com/vim-scripts/tComment.git
 [submodule "assets/gnome-terminal-solarized"]
 	path = assets/gnome-terminal-solarized
-	url = git@github.com:sigurdga/gnome-terminal-colors-solarized.git
+	url = https://github.com/sigurdga/gnome-terminal-colors-solarized.git
 [submodule "vim/bundle/android"]
 	path = vim/bundle/android
-	url = git@github.com:hsanson/vim-android.git
+	url = https://github.com/hsanson/vim-android.git
 [submodule "vim/bundle/railscasts"]
 	path = vim/bundle/railscasts
-	url = git@github.com:jpo/vim-railscasts-theme.git
+	url = https://github.com/jpo/vim-railscasts-theme.git
 [submodule "vim/bundle/leiningen"]
 	path = vim/bundle/leiningen
-	url = git://github.com/tpope/vim-leiningen.git
+	url = https://github.com/tpope/vim-leiningen.git
 [submodule "vim/bundle/projectionist"]
 	path = vim/bundle/projectionist
-	url = git://github.com/tpope/vim-projectionist.git
+	url = https://github.com/tpope/vim-projectionist.git
 [submodule "vim/bundle/dispatch"]
 	path = vim/bundle/dispatch
-	url = git://github.com/tpope/vim-dispatch.git
+	url = https://github.com/tpope/vim-dispatch.git
 [submodule "vim/bundle/fireplace"]
 	path = vim/bundle/fireplace
-	url = git://github.com/tpope/vim-fireplace.git
+	url = https://github.com/tpope/vim-fireplace.git
 [submodule "vim/bundle/sexp-mappings-for-regular-people"]
 	path = vim/bundle/sexp-mappings-for-regular-people
-	url = git://github.com/tpope/vim-sexp-mappings-for-regular-people.git
+	url = https://github.com/tpope/vim-sexp-mappings-for-regular-people.git
 [submodule "vim/bundle/sexp"]
 	path = vim/bundle/sexp
-	url = git://github.com/guns/vim-sexp.git
+	url = https://github.com/guns/vim-sexp.git
 [submodule "vim/bundle/repeat"]
 	path = vim/bundle/repeat
-	url = git://github.com/tpope/vim-repeat.git
+	url = https://github.com/tpope/vim-repeat.git
 [submodule "vim/bundle/markdown"]
 	path = vim/bundle/markdown
 	url = https://github.com/plasticboy/vim-markdown.git
 [submodule "vim/bundle/scala"]
 	path = vim/bundle/scala
-	url = git@github.com:derekwyatt/vim-scala.git
+	url = https://github.com/derekwyatt/vim-scala.git
 [submodule "vim/bundle/graphql"]
 	path = vim/bundle/graphql
-	url = git@github.com:jparise/vim-graphql.git
+	url = https://github.com/jparise/vim-graphql.git
 [submodule "vim/bundle/javascript"]
 	path = vim/bundle/javascript
-	url = git@github.com:pangloss/vim-javascript.git
+	url = https://github.com/pangloss/vim-javascript.git
 [submodule "vim/bundle/go"]
 	path = vim/bundle/go
-	url = git@github.com:fatih/vim-go.git
+	url = https://github.com/fatih/vim-go.git
 [submodule "vim/bundle/typescript"]
 	path = vim/bundle/typescript
 	url = https://github.com/leafgarland/typescript-vim.git
 [submodule "vim/bundle/swift"]
 	path = vim/bundle/swift
-	url = git@github.com:keith/swift.vim.git
+	url = https://github.com/keith/swift.vim.git
 [submodule "vim/bundle/vim-toml"]
 	path = vim/bundle/vim-toml
-	url = git@github.com:cespare/vim-toml.git
+	url = https://github.com/cespare/vim-toml.git
 [submodule "vim/bundle/ale"]
 	path = vim/bundle/ale
-	url = git@github.com:dense-analysis/ale.git
+	url = https://github.com/dense-analysis/ale.git
 [submodule "vim-jsx-pretty"]
 	path = vim-jsx-pretty
-	url = git@github.com:MaxMEllon/vim-jsx-pretty.git
+	url = https://github.com/MaxMEllon/vim-jsx-pretty.git
