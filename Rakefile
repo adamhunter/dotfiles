@@ -11,9 +11,11 @@ namespace :dotfiles do
       link_rcs  %w[zsh vim]
 
       mkdir     "#{home}/.oh-my-zsh/custom/themes"
+      mkdir     "#{home}/.config/nvim"
 
       link      "#{home}/.zsh/#{theme}", "#{home}/.oh-my-zsh/custom/themes/#{theme}"
       link      "#{root}/tmux/tmux.conf",     "#{home}/.tmux.conf"
+      link      "#{root}/nvim/init.vim",      "#{home}/.config/nvim/init.vim"
 
       log       "\n\n Now run `source #{home}/.zshrc`\n\n"
     end
