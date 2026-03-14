@@ -91,6 +91,15 @@ else
   ok "Claude Code already installed"
 fi
 
+# ---------- uv (Python package manager) ----------
+info "Checking uv..."
+if ! command -v uv &>/dev/null; then
+  curl -LsSf https://astral.sh/uv/install.sh | bash
+  ok "uv installed"
+else
+  ok "uv already installed"
+fi
+
 # ---------- AI CLI tools ----------
 info "Checking AI CLI tools..."
 if command -v npm &>/dev/null; then
