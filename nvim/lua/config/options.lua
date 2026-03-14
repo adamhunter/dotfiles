@@ -1,9 +1,5 @@
 local opt = vim.opt
 
--- Leader key
-vim.g.mapleader = ","
-vim.g.maplocalleader = ","
-
 -- Encoding
 opt.encoding = "utf-8"
 
