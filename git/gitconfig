@@ -1,0 +1,15 @@
+[user]
+	name = Adam Hunter
+	email = adam.hunter@reason.consulting
+
+[core]
+	excludesFile = ~/.gitignore_global
+
+[init]
+	defaultBranch = main
+
+[pull]
+	rebase = true
+
+[push]
+	autoSetupRemote = true

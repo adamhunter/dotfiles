@@ -1,0 +1,7 @@
+{
+  "effortLevel": "high",
+  "statusLine": {
+    "type": "command",
+    "command": "bash /Users/adam.hunter/.claude/statusline-command.sh"
+  }
+}
