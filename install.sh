@@ -100,6 +100,15 @@ else
   ok "uv already installed"
 fi
 
+# ---------- SDKMAN ----------
+info "Checking SDKMAN..."
+if [ ! -d "$HOME_DIR/.sdkman" ]; then
+  curl -s "https://get.sdkman.io" | bash
+  ok "SDKMAN installed"
+else
+  ok "SDKMAN already installed"
+fi
+
 # ---------- AI CLI tools ----------
 info "Checking AI CLI tools..."
 if command -v npm &>/dev/null; then

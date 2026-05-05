@@ -1,6 +1,30 @@
-# AI Agent Instructions for Spring Boot Projects
+# AI Agent Instructions
 
-This document provides guidelines for AI coding assistants working on Gradle-based Spring Boot 3.5+ / 4.0+ projects.
+Global guidelines for AI coding assistants. Spring Boot specifics follow further down.
+
+## Environment & Tooling
+
+- **Always use direnv when an `.envrc` is present.** If the repo has an `.envrc`, assume environment variables, PATH shims, and tool versions are loaded through it. Run shell commands inside a context where direnv has hooked in (e.g. via `direnv exec . <cmd>`) rather than exporting variables manually or hardcoding paths.
+- **For new projects, default to direnv with an `.envrc` at the repo root.** Use it for env vars, tool version pinning (e.g. `use flake`, `use node`, `use java`), local secrets via `.envrc.local`, and PATH additions for project-local binaries. Don't scatter env setup across `Makefile`s, shell profiles, or per-script `export` lines.
+- If an existing repo would benefit from one and doesn't have an `.envrc`, suggest adding it rather than scattering env setup across scripts.
+- Never commit secrets to `.envrc`. Use `.envrc` to source a gitignored `.envrc.local` or a secret manager.
+- Treat `direnv allow` as a user action — surface the command, don't run it silently.
+
+## AI-First Projects: Prefer C# / .NET
+
+For new AI-first projects (agents, orchestrators, agentic workflows, Copilot/M365 integrations), **default to C# on .NET** unless there's a specific reason not to.
+
+- **Runtime:** .NET 9+ (LTS-aware), C# 13+.
+- **Orchestration:** Microsoft Agent Framework. No Java equivalent exists, and Semantic Kernel / Agent Framework is the first-party path for Azure AI, Foundry, and Copilot extensibility.
+- **Hosting:** ASP.NET Core minimal APIs for HTTP surfaces; Azure Container Apps or Azure Functions for deploy targets.
+- **AI clients:** `Azure.AI.OpenAI`, `Microsoft.Extensions.AI`, `Microsoft.SemanticKernel` — prefer the Microsoft.Extensions.AI abstractions over provider-specific SDKs where possible.
+- **Auth:** `Microsoft.Identity.Web` for OIDC / Entra ID. Use managed identity in Azure, never client secrets.
+- **Config:** `IOptions<T>` bound from `appsettings.json` + environment, loaded through direnv locally.
+- **Testing:** xUnit + `Microsoft.Extensions.AI.Evaluation` for model/agent evals, not just unit tests.
+- **Packaging:** Project SDK style (`Microsoft.NET.Sdk.Web`), central package management via `Directory.Packages.props`.
+- **Long text & prompts:** Extract non-trivial multi-line strings (system prompts, MCP server instructions, templates) to files under a `Resources/` folder marked `<EmbeddedResource>` in the csproj; read at runtime via `Assembly.GetManifestResourceStream`. Mirrors Java's `src/main/resources/`. Keeps C# source readable, prompt iteration out of code-review diff noise, and the file editable in any markdown/text tool.
+
+Spring Boot remains the default for traditional REST/data-platform work. The C# default applies specifically to AI-first surfaces where Microsoft's agent stack is the lead-blocker.
 
 ## Build & Test Commands
 

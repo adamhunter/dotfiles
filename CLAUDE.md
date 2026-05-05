@@ -18,6 +18,6 @@ Personal dotfiles for macOS with zsh, nvim, tmux, git, and AI tooling.
 - No shell aliases — use tools by their real names
 - No vim — nvim only with Lua config
 - oh-my-zsh installed via standard installer, NOT vendored
-- Custom zsh files go in `zsh/custom/` and get symlinked to `~/.oh-my-zsh/custom/`
+- Never edit `zsh/zshrc` directly — add new shell config as a `.zsh` file in `zsh/custom/`, which gets symlinked to `~/.oh-my-zsh/custom/` by `install.sh`
 - Plugins managed by lazy.nvim, not submodules
 - Fonts installed via brew cask, not vendored
