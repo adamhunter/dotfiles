@@ -101,6 +101,8 @@ Organize Spring Boot API applications by type:
    }
    ```
 
+5. **Testcontainers for owned infra** — DB, Redis, Kafka, etc. run as real containers in integration tests. Use `@ServiceConnection` (Spring Boot 3.1+) to wire containers into the test context. Reserve `@MockitoBean` for third-party APIs.
+
 ## Spring Boot 3.5+ / 4.0+ Notes
 
 - Use `org.springframework.test.context.bean.override.mockito.MockitoBean` (not the deprecated `@MockBean`)

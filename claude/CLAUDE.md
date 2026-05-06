@@ -34,6 +34,10 @@ When commands are interchangeable, prefer:
 - `asdf` (or project `.tool-versions`) for runtime version pinning
 - `overmind` + `Procfile` for multi-process dev loops
 
+## Architecture defaults
+
+- **Design server-side apps for Testcontainers.** Configure DB, queue, and cache dependencies at runtime (env/config), not hardcoded — integration tests spin up real services via Testcontainers rather than mocking them. Mock truly *external* services (third-party APIs); run real infra you own.
+
 ## Starting a New Project
 
 If a project lacks a CLAUDE.md and matches a known stack, suggest copying the relevant template into `<project>/CLAUDE.md` and adapting:

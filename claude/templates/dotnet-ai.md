@@ -10,7 +10,7 @@ Drop-in CLAUDE.md template for AI-first .NET projects (agents, orchestrators, ag
 - **AI clients:** `Azure.AI.OpenAI`, `Microsoft.Extensions.AI`, `Microsoft.SemanticKernel`. Prefer the `Microsoft.Extensions.AI` abstractions over provider-specific SDKs where possible.
 - **Auth:** `Microsoft.Identity.Web` for OIDC / Entra ID. Use managed identity in Azure, never client secrets.
 - **Config:** `IOptions<T>` bound from `appsettings.json` + environment, loaded through direnv locally.
-- **Testing:** xUnit + `Microsoft.Extensions.AI.Evaluation` for model/agent evals, not just unit tests.
+- **Testing:** xUnit + `Microsoft.Extensions.AI.Evaluation` for model/agent evals, not just unit tests. Use `Testcontainers` (NuGet) for owned infra (Postgres, Redis, etc.); mock third-party HTTP APIs only.
 - **Packaging:** Project SDK style (`Microsoft.NET.Sdk.Web`), central package management via `Directory.Packages.props`.
 
 ## Long text & prompts
