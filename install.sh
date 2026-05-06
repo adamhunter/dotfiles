@@ -23,7 +23,7 @@ link() {
 # ---------- Homebrew ----------
 info "Checking Homebrew dependencies..."
 if command -v brew &>/dev/null; then
-  brew bundle --file="$DOTFILES/Brewfile" --no-lock
+  brew bundle --file="$DOTFILES/Brewfile"
   ok "Brew dependencies installed"
 else
   warn "Homebrew not found, skipping brew bundle"
@@ -80,6 +80,7 @@ link "$DOTFILES/claude/settings.json" "$HOME_DIR/.claude/settings.json"
 link "$DOTFILES/claude/keybindings.json" "$HOME_DIR/.claude/keybindings.json"
 link "$DOTFILES/claude/statusline-command.sh" "$HOME_DIR/.claude/statusline-command.sh"
 link "$DOTFILES/claude/CLAUDE.md" "$HOME_DIR/.claude/CLAUDE.md"
+link "$DOTFILES/claude/templates" "$HOME_DIR/.claude/templates"
 ok "Claude Code configured"
 
 # ---------- Claude Code install ----------
