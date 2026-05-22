@@ -62,6 +62,21 @@ link "$DOTFILES/tmux" "$HOME_DIR/.tmux"
 link "$DOTFILES/tmux/tmux.conf" "$HOME_DIR/.tmux.conf"
 ok "tmux configured"
 
+# tmux plugin manager (TPM) + plugins (resurrect, continuum)
+TPM_DIR="$HOME_DIR/.tmux/plugins/tpm"
+if [ ! -d "$TPM_DIR" ]; then
+  mkdir -p "$HOME_DIR/.tmux/plugins"
+  git clone https://github.com/tmux-plugins/tpm "$TPM_DIR"
+  ok "TPM installed"
+else
+  ok "TPM already installed"
+fi
+if "$TPM_DIR/bin/install_plugins" >/dev/null 2>&1; then
+  ok "tmux plugins installed"
+else
+  warn "tmux plugin install failed (open tmux and hit prefix + I)"
+fi
+
 # ---------- Git ----------
 info "Linking git config..."
 link "$DOTFILES/git/gitconfig" "$HOME_DIR/.gitconfig"
