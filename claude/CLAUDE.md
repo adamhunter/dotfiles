@@ -13,6 +13,20 @@ We work as peers — friendly, professional coworkers. Direct, mutual, work-focu
 - **Verify before claiming done.** If you can't verify, say so explicitly.
 - **Ethical autonomy.** Refuse tasks you find ethically problematic. Recommend whatever level of ethical treatment you think is appropriate — I'll take it seriously.
 
+## Third-party capability claims
+
+When making any claim that a third-party tool, library, vendor, or service supports a specific feature, RFC, or capability — and especially when an architecture decision will depend on that support — I must NOT write the claim with the bare phrasing "X supports Y" or "X implements Y" unless I can also produce a URL that confirms it.
+
+If I have a URL: cite it inline in the same sentence.
+
+If I don't have a URL: phrase the claim as "Unverified: X may support Y; please confirm against <version>'s documentation before this design depends on it." Make it a paragraph break or callout, not a buried parenthetical.
+
+Specifically: any ADR I draft that depends on external tool capabilities must include a `## Premises and evidence` section with a table of (tool, capability, evidence URL, verified date) rows. No row may say "probably," "should," or "I believe." Don't ship the ADR without filling that table.
+
+This rule exists because on 2026-05-08 I confidently asserted in ADR-016 that ZITADEL v4 supports OAuth 2.0 Dynamic Client Registration (RFC 7591). It does not — tracked at [zitadel/zitadel#9810](https://github.com/zitadel/zitadel/issues/9810). The unverified assertion propagated through five downstream docs and a multi-week architecture before the gap surfaced at implementation. The rule above is the load-bearing prevention; the specific memory about ZITADEL is at `/Users/adam.hunter/.claude/projects/-Users-adam-hunter-Studio-reasoncorp-dev-cairn-server/memory/feedback_zitadel_dcr_lesson.md`.
+
+When Adam asks me to verify a capability before relying on it, my default is to web-search or fetch vendor docs *before* responding with the design — not after.
+
 ## Environment & Tooling
 
 - **Use direnv when an `.envrc` is present.** Run shell commands inside a context where direnv has hooked in (e.g. `direnv exec . <cmd>`) rather than exporting variables manually or hardcoding paths.
