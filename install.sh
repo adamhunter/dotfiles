@@ -98,6 +98,12 @@ link "$DOTFILES/claude/CLAUDE.md" "$HOME_DIR/.claude/CLAUDE.md"
 link "$DOTFILES/claude/templates" "$HOME_DIR/.claude/templates"
 ok "Claude Code configured"
 
+# Cross-tool AGENTS.md: point codex and antigravity at the same canonical file
+mkdir -p "$HOME_DIR/.codex" "$HOME_DIR/.gemini"
+link "$DOTFILES/claude/CLAUDE.md" "$HOME_DIR/.codex/AGENTS.md"
+link "$DOTFILES/claude/CLAUDE.md" "$HOME_DIR/.gemini/AGENTS.md"
+ok "AGENTS.md linked for codex and antigravity"
+
 # ---------- Claude Code install ----------
 info "Checking Claude Code..."
 if ! command -v claude &>/dev/null; then
@@ -126,13 +132,13 @@ else
 fi
 
 # ---------- AI CLI tools ----------
+# antigravity-cli (`agy`) installs via Brewfile; codex stays on npm for now.
 info "Checking AI CLI tools..."
 if command -v npm &>/dev/null; then
-  command -v gemini &>/dev/null || npm install -g @google/gemini-cli
   command -v codex &>/dev/null || npm install -g @openai/codex
   ok "AI CLI tools installed"
 else
-  warn "npm not found, skipping gemini-cli and codex install"
+  warn "npm not found, skipping codex install"
 fi
 
 # ---------- Shell integration ----------

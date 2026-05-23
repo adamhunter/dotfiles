@@ -1,6 +1,6 @@
 # AI Agent Instructions
 
-Global guidelines for AI coding assistants. Project-level CLAUDE.md files override these.
+Global guidelines for AI coding assistants. Project-level instructions (`CLAUDE.md` / `AGENTS.md`) override these.
 
 ## Working together
 
@@ -37,6 +37,17 @@ When commands are interchangeable, prefer:
 ## Architecture defaults
 
 - **Design server-side apps for Testcontainers.** Configure DB, queue, and cache dependencies at runtime (env/config), not hardcoded — integration tests spin up real services via Testcontainers rather than mocking them. Mock truly *external* services (third-party APIs); run real infra you own.
+
+## Server-side defaults (12-factor)
+
+For new services, default to [12-factor](https://12factor.net/) patterns:
+
+- **Config from the environment.** No hardcoded URLs, ports, or secrets. Read from env (via direnv in dev, real env in prod).
+- **Stateless processes.** No in-memory session state, no on-disk caches that survive a restart. Persist to a backing service.
+- **Port binding.** The app binds its own port from `$PORT`; no reverse-proxy assumptions baked into the code.
+- **Disposability.** Fast startup, graceful SIGTERM handling. Don't write code that needs a clean shutdown to avoid data loss.
+- **Dev/prod parity.** Same backing-service implementations across environments (reinforces the Testcontainers default above — no sqlite-in-dev, postgres-in-prod).
+- **Logs to stdout.** Write structured logs to stdout/stderr as a stream. No log file management inside the app.
 
 ## Starting a New Project
 
