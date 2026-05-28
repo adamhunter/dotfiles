@@ -48,6 +48,15 @@ When commands are interchangeable, prefer:
 - `asdf` (or project `.tool-versions`) for runtime version pinning
 - `overmind` + `Procfile` for multi-process dev loops
 
+## Match the language and community
+
+Write code the way the surrounding language and its community write it, not the way the last codebase you worked in did:
+
+- **Follow community idioms.** Idiomatic Go is errors-as-values and small interfaces, not Java-style hierarchies. Idiomatic Python is PEP 8 and duck typing, not Java-style abstract base classes everywhere. Idiomatic Rust uses Result and the API guidelines, not C++ exceptions. When in doubt, look at the standard library and the most-starred packages.
+- **Flag non-idiomatic codebases instead of mirroring them.** If the existing code diverges from community norms in non-trivial ways (Java-style POJOs in a Python project, no formatter, exception-based control flow in Go, factory-explosions in Ruby), surface it as a code smell and ask whether to align with idioms or stay consistent with the existing style. Don't silently adopt non-idiomatic patterns just because they're already there.
+- **Use the standard formatter and linter.** `gofmt`, `ruff` / `black`, `rustfmt`, `prettier`, `ktlint`, `dotnet format` — run them. Don't hand-format.
+- **Reach for the standard library before third-party deps.** Most ecosystems' stdlibs are richer than they look. Add a dependency only when the stdlib answer is genuinely worse, not just slightly less ergonomic.
+
 ## Architecture defaults
 
 - **Design server-side apps for Testcontainers.** Configure DB, queue, and cache dependencies at runtime (env/config), not hardcoded — integration tests spin up real services via Testcontainers rather than mocking them. Mock truly *external* services (third-party APIs); run real infra you own.
