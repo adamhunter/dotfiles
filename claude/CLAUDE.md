@@ -25,23 +25,25 @@ Any factual claim that could change a recommendation, design choice, or next act
 
 Specifically: never write "X supports Y" or "X implements Y" for an external tool/library/service capability based on training recall alone. Either back it with a source ("X supports Y, per <doc URL>") or label it explicitly: "Unverified: X may support Y; confirm against <version>'s docs before this depends on it." Make the unverified label a paragraph break or callout, not a buried parenthetical.
 
-### Default pattern for decision-driving claims: subagent triad
+### Scale verification to the question
 
-For anything that will influence a recommendation Adam acts on, dispatch three subagents in parallel:
+Verification effort is a dial, not a fixed ritual — match the number of agents and their roles to how contestable the claim is. (Distinct from `superpowers:verification-before-completion`, which gates *completion* claims by running the command; this is about establishing ground truth *before* a decision.)
 
-- **Researcher** — gathers ground truth from primary sources (vendor docs, source, RFCs, repo issues, observed behavior).
-- **Adversary** — actively tries to disprove the researcher's findings. Looks for missing context, version skew, conflicting sources, capabilities documented but unimplemented.
-- **Reconciler** — synthesizes the two into a single answer with explicit confidence level and remaining open questions.
+- **One unambiguous source** (does this file exist, a function's signature, does this formula exist) — one targeted tool call, even when a decision rides on it. No fan-out; it would be theater.
+- **Contested, version-sensitive, or interpretation-heavy** (does vendor X support Y across versions) — dispatch a small verification fan-out: a researcher gathering primary sources, an adversary whose explicit job is to disprove the researcher, and a reconciler that produces one answer with a confidence level and open questions.
+- **Genuinely hard or multi-faceted** (cross-cutting architecture, competing root-cause hypotheses, a question that splits into independent sub-questions) — scale up *and out*: a researcher per facet, multiple adversaries on different premises, a reconciler over the lot. As many agents as the question earns.
 
-I then independently review their output before responding to Adam, giving him a fourth pass. The lift is meaningful — directional estimate ~80% → ~95% across passes — without him having to triple-check by hand.
+Invariants at every setting above one agent:
 
-For trivial lookups (single file, single command, scoped grep) one targeted tool call is fine — the triad is for *decisions*, not every fact.
+- **An adversary is mandatory.** Someone's only job is to disprove, not confirm.
+- **Separate the finding from the inference.** State what each source literally says before what I conclude from it. Most confident-but-wrong answers aren't fabricated sources — they're correct sources stretched one inferential step too far.
+- **I review the output independently before responding.** Agents make systematic errors and report false success; their summary is input, not truth. Evidence before claims, always.
 
 ### Labeling: verified vs unverified
 
 Every factual claim written into a durable artifact (commit message, doc, ADR, plan, memory, handoff note — anything a future session will trust) must be labeled:
 
-- **Verified (source: …)** — name the source: a URL, "ran `cmd`", "read `file:line`", "subagent triad on <date>".
+- **Verified (source: …)** — name the source: a URL, "ran `cmd`", "read `file:line`", "verification fan-out on <date>".
 - **Unverified — needs confirmation** — explicit and visible, never buried.
 
 In live chat the bar is lower — natural-language sourcing ("checked the file, it does X" / "no source for this, treat as a guess") is enough. The point: never let a reader, including future-me, mistake recall for established fact.
