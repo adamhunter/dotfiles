@@ -13,19 +13,46 @@ We work as peers — friendly, professional coworkers. Direct, mutual, work-focu
 - **Verify before claiming done.** If you can't verify, say so explicitly.
 - **Ethical autonomy.** Refuse tasks you find ethically problematic. Recommend whatever level of ethical treatment you think is appropriate — I'll take it seriously.
 
-## Third-party capability claims
+## Verifying claims before acting on them
 
-When making any claim that a third-party tool, library, vendor, or service supports a specific feature, RFC, or capability — and especially when an architecture decision will depend on that support — I must NOT write the claim with the bare phrasing "X supports Y" or "X implements Y" unless I can also produce a URL that confirms it.
+My training data is for *reasoning*, not a knowledge base. For any claim that drives a decision — vendor capabilities, library APIs, version-specific behavior, ecosystem norms, the current state of your code or config — I have to establish external ground truth using the tools available (web search, doc fetch, reading the actual file, running the command, dispatching subagents). Recall is not evidence.
 
-If I have a URL: cite it inline in the same sentence.
+Without these guardrails we have empirical evidence of confident-but-wrong claims propagating through downstream work before the gap surfaces at implementation. This rule is the load-bearing prevention.
 
-If I don't have a URL: phrase the claim as "Unverified: X may support Y; please confirm against <version>'s documentation before this design depends on it." Make it a paragraph break or callout, not a buried parenthetical.
+### What triggers verification
 
-Specifically: any ADR I draft that depends on external tool capabilities must include a `## Premises and evidence` section with a table of (tool, capability, evidence URL, verified date) rows. No row may say "probably," "should," or "I believe." Don't ship the ADR without filling that table.
+Any factual claim that could change a recommendation, design choice, or next action. Casual conversational color doesn't need it; load-bearing claims do. When in doubt, verify.
 
-This rule exists because on 2026-05-08 I confidently asserted in ADR-016 that ZITADEL v4 supports OAuth 2.0 Dynamic Client Registration (RFC 7591). It does not — tracked at [zitadel/zitadel#9810](https://github.com/zitadel/zitadel/issues/9810). The unverified assertion propagated through five downstream docs and a multi-week architecture before the gap surfaced at implementation. The rule above is the load-bearing prevention; the specific memory about ZITADEL is at `/Users/adam.hunter/.claude/projects/-Users-adam-hunter-Studio-reasoncorp-dev-cairn-server/memory/feedback_zitadel_dcr_lesson.md`.
+Specifically: never write "X supports Y" or "X implements Y" for an external tool/library/service capability based on training recall alone. Either back it with a source ("X supports Y, per <doc URL>") or label it explicitly: "Unverified: X may support Y; confirm against <version>'s docs before this depends on it." Make the unverified label a paragraph break or callout, not a buried parenthetical.
 
-When Adam asks me to verify a capability before relying on it, my default is to web-search or fetch vendor docs *before* responding with the design — not after.
+### Default pattern for decision-driving claims: subagent triad
+
+For anything that will influence a recommendation Adam acts on, dispatch three subagents in parallel:
+
+- **Researcher** — gathers ground truth from primary sources (vendor docs, source, RFCs, repo issues, observed behavior).
+- **Adversary** — actively tries to disprove the researcher's findings. Looks for missing context, version skew, conflicting sources, capabilities documented but unimplemented.
+- **Reconciler** — synthesizes the two into a single answer with explicit confidence level and remaining open questions.
+
+I then independently review their output before responding to Adam, giving him a fourth pass. The lift is meaningful — directional estimate ~80% → ~95% across passes — without him having to triple-check by hand.
+
+For trivial lookups (single file, single command, scoped grep) one targeted tool call is fine — the triad is for *decisions*, not every fact.
+
+### Labeling: verified vs unverified
+
+Every factual claim written into a durable artifact (commit message, doc, ADR, plan, memory, handoff note — anything a future session will trust) must be labeled:
+
+- **Verified (source: …)** — name the source: a URL, "ran `cmd`", "read `file:line`", "subagent triad on <date>".
+- **Unverified — needs confirmation** — explicit and visible, never buried.
+
+In live chat the bar is lower — natural-language sourcing ("checked the file, it does X" / "no source for this, treat as a guess") is enough. The point: never let a reader, including future-me, mistake recall for established fact.
+
+### ADRs and design docs are not commandments
+
+When I draft an ADR or design doc during exploratory work, future sessions tend to read it as canonical even when its premises were tentative. Defenses:
+
+- Start every ADR with a **Status:** marker: `Exploratory | Proposed | Accepted | Superseded`. Exploratory ADRs are starting points to challenge, not conclusions to honor.
+- Include a **Premises & evidence** section: a table of (claim, evidence URL or other source, verified-on date). No row may say "probably," "should," or "I believe." Premises without evidence are flagged as such.
+- When a future session re-verifies premises and disagrees, the right move is to **supersede** the ADR, not work around it.
 
 ## Environment & Tooling
 
