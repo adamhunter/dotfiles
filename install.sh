@@ -131,14 +131,36 @@ else
   ok "SDKMAN already installed"
 fi
 
+# ---------- Node (via asdf) ----------
+# Runtimes are asdf-managed, not brew-installed. Node provides npm for codex below.
+info "Checking Node via asdf..."
+if command -v asdf &>/dev/null; then
+  export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+  asdf plugin list 2>/dev/null | grep -qx nodejs || asdf plugin add nodejs
+  if [ -z "$(asdf list nodejs 2>/dev/null | tr -d '[:space:]')" ]; then
+    node_version="$(asdf latest nodejs)"
+    asdf install nodejs "$node_version"
+    asdf set --home nodejs "$node_version"
+    asdf reshim nodejs
+    ok "Node $node_version installed via asdf"
+  else
+    ok "Node already managed by asdf"
+  fi
+else
+  warn "asdf not found, skipping Node setup"
+fi
+
 # ---------- AI CLI tools ----------
 # antigravity-cli (`agy`) installs via Brewfile; codex stays on npm for now.
 info "Checking AI CLI tools..."
 if command -v npm &>/dev/null; then
-  command -v codex &>/dev/null || npm install -g @openai/codex
+  if ! command -v codex &>/dev/null; then
+    npm install -g @openai/codex
+    command -v asdf &>/dev/null && asdf reshim nodejs
+  fi
   ok "AI CLI tools installed"
 else
-  warn "npm not found, skipping codex install"
+  warn "npm not found (is asdf nodejs set?), skipping codex install"
 fi
 
 # ---------- Shell integration ----------
