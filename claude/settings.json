@@ -1,4 +1,7 @@
 {
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
   "statusLine": {
     "type": "command",
     "command": "bash /Users/adam.hunter/.claude/statusline-command.sh"
@@ -18,8 +21,6 @@
     }
   },
   "effortLevel": "high",
-  "skipAutoPermissionPrompt": true,
-  "env": {
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
-  }
+  "theme": "dark",
+  "skipAutoPermissionPrompt": true
 }
