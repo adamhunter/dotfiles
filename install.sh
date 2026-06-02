@@ -13,8 +13,11 @@ link() {
   if [ -L "$dst" ]; then
     rm "$dst"
   elif [ -e "$dst" ]; then
-    warn "$dst exists and is not a symlink, skipping"
-    return
+    # A real file here (e.g. the default ~/.zshrc the oh-my-zsh installer
+    # writes) would otherwise be left in place, silently orphaning our
+    # config. Back it up and link anyway so the install is reliable.
+    warn "$dst exists and is not a symlink, backing up to $dst.bak"
+    mv "$dst" "$dst.bak"
   fi
   ln -sf "$src" "$dst"
   ok "linked $dst"
