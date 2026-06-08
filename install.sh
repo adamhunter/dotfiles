@@ -125,6 +125,22 @@ else
   ok "uv already installed"
 fi
 
+# ---------- GAM (Google Workspace admin CLI) ----------
+# Official gam7 PyPI package, installed isolated via uv (no brew formula
+# exists; the curl installer prompts interactively). Binary lands in
+# ~/.local/bin, already on PATH.
+info "Checking GAM..."
+if command -v uv &>/dev/null; then
+  if ! command -v gam &>/dev/null; then
+    uv tool install gam7
+    ok "GAM installed"
+  else
+    ok "GAM already installed"
+  fi
+else
+  warn "uv not found, skipping GAM install"
+fi
+
 # ---------- SDKMAN ----------
 info "Checking SDKMAN..."
 if [ ! -d "$HOME_DIR/.sdkman" ]; then
