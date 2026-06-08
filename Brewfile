@@ -10,6 +10,7 @@ brew "ripgrep"
 brew "dotnet"
 brew "overmind"
 brew "pnpm"
+brew "googleworkspace-cli" # gws: official Google Workspace admin CLI
 cask "antigravity-cli"
 cask "gcloud-cli"
 cask "font-dejavu-sans-mono-nerd-font"
