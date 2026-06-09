@@ -8,7 +8,7 @@ ZSH_THEME="sorin"
 DISABLE_CORRECTION="true"
 
 # Plugins (custom/*.zsh files are sourced automatically by oh-my-zsh)
-plugins=(git macos)
+plugins=(macos)
 
 set -k
 
