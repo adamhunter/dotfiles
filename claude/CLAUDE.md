@@ -71,6 +71,7 @@ When commands are interchangeable, prefer:
 - `rg` over `grep`, `bat` over `cat`, `eza` over `ls`
 - `z` (zoxide) over `cd` for known directories
 - `gh` for GitHub interactions (PRs, issues, releases)
+- the **GitLab MCP server** for GitLab interactions (MRs, issues, pipelines) — `glab` is intentionally **not** installed; use the MCP tools, not a CLI
 - `homebrew` over `npm i -g` for installing CLI tools
 - `uv` for Python (deps, venvs, scripts)
 - `pnpm` over `npm` / `yarn` for JS package management
