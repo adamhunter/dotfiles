@@ -5,6 +5,7 @@ brew "asdf"
 brew "fzf"
 brew "zoxide"
 brew "bat"
+brew "glow" # render markdown in the terminal
 brew "eza"
 brew "ripgrep"
 brew "dotnet"
