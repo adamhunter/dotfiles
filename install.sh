@@ -169,6 +169,18 @@ else
   warn "asdf not found, skipping Node setup"
 fi
 
+# ---------- Terraform (via asdf) ----------
+# Managed by asdf so projects pin exact versions in their own .tool-versions.
+# Homebrew-core froze terraform at 1.5.7 when 1.6 moved to the BUSL license,
+# so brew can't provide 1.6+; asdf can. No global version is set here.
+info "Checking Terraform plugin (asdf)..."
+if command -v asdf &>/dev/null; then
+  asdf plugin list 2>/dev/null | grep -qx terraform || asdf plugin add terraform
+  ok "asdf terraform plugin ready (pin per-project in .tool-versions)"
+else
+  warn "asdf not found, skipping terraform plugin"
+fi
+
 # ---------- AI CLI tools ----------
 # antigravity-cli (`agy`) installs via Brewfile; codex stays on npm for now.
 info "Checking AI CLI tools..."
