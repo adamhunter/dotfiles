@@ -170,15 +170,19 @@ else
 fi
 
 # ---------- Terraform (via asdf) ----------
-# Managed by asdf so projects pin exact versions in their own .tool-versions.
 # Homebrew-core froze terraform at 1.5.7 when 1.6 moved to the BUSL license,
-# so brew can't provide 1.6+; asdf can. No global version is set here.
-info "Checking Terraform plugin (asdf)..."
+# so brew can't provide 1.6+; asdf can. Sets a global default; projects can
+# still override via their own .tool-versions.
+terraform_version="1.6.6"
+info "Checking Terraform via asdf..."
 if command -v asdf &>/dev/null; then
   asdf plugin list 2>/dev/null | grep -qx terraform || asdf plugin add terraform
-  ok "asdf terraform plugin ready (pin per-project in .tool-versions)"
+  asdf list terraform 2>/dev/null | grep -q "$terraform_version" || asdf install terraform "$terraform_version"
+  asdf set --home terraform "$terraform_version"
+  asdf reshim terraform
+  ok "Terraform $terraform_version set as global default via asdf"
 else
-  warn "asdf not found, skipping terraform plugin"
+  warn "asdf not found, skipping terraform"
 fi
 
 # ---------- AI CLI tools ----------
