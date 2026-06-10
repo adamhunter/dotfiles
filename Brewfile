@@ -12,6 +12,7 @@ brew "dotnet"
 brew "overmind"
 brew "pnpm"
 brew "googleworkspace-cli" # gws: official Google Workspace admin CLI
+brew "glab" # GitLab CLI (prefer the GitLab MCP first; see CLAUDE.md)
 cask "antigravity-cli"
 cask "gcloud-cli"
 cask "font-dejavu-sans-mono-nerd-font"
