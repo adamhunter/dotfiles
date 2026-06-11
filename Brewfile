@@ -1,3 +1,4 @@
+brew "git" # real binary; bypasses the slow /usr/bin/git Xcode shim
 brew "neovim"
 brew "tmux"
 brew "direnv"
