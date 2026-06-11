@@ -21,8 +21,8 @@ source "$HOME/.zsh/exports.zsh"
 
 export PATH="$HOME/.local/bin:$PATH"
 
-# fzf shell integration (ctrl-r history, ctrl-t file finder)
-eval "$(fzf --zsh)"
+# fzf shell integration (ctrl-r history, ctrl-t file finder) — cached
+_cached_eval fzf "${commands[fzf]}" fzf --zsh
 
-# zoxide smart cd (use: z <directory>)
-eval "$(zoxide init zsh)"
+# zoxide smart cd (use: z <directory>) — cached
+_cached_eval zoxide "${commands[zoxide]}" zoxide init zsh
