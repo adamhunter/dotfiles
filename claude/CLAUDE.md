@@ -72,6 +72,7 @@ When commands are interchangeable, prefer:
 - `z` (zoxide) over `cd` for known directories
 - `gh` for GitHub interactions (PRs, issues, releases)
 - the **GitLab MCP server** for GitLab interactions (MRs, issues, pipelines) — reach for the MCP tools first; fall back to `glab` only when the MCP can't do it
+- when referencing a merge request or PR in any output, include its full URL — never cite it by number or title alone
 - `homebrew` over `npm i -g` for installing CLI tools
 - `uv` for Python (deps, venvs, scripts)
 - `pnpm` over `npm` / `yarn` for JS package management
