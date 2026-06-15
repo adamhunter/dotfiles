@@ -21,12 +21,20 @@ model talking to itself.
 Peers (both are agentic CLIs; piped stdin is appended to the prompt):
 - Codex: `... | codex exec "<brief>"`  — hostile critic. Defaults to a **read-only**
   sandbox; Branch A test-authoring needs `--sandbox workspace-write` (see Branch A).
-- AGY:   `... | agy --sandbox -p "<brief>"` — divergent + large-context.
+- AGY:   isolated — `<artifact> | ( cd "$(mktemp -d)" && agy --sandbox -p "<brief>" )`
+  — divergent + large-context. The wrapper is mandatory; see **AGY SAFETY**.
 
-**AGY SAFETY — non-negotiable.** In `-p` mode AGY *ignores* "don't use tools / don't edit"
-and will execute tool calls against the **live repo**. NEVER invoke it without `--sandbox`.
-If you can't run it sandboxed, drop AGY and go codex-only. Even sandboxed, its exact
-containment is unverified — don't point AGY at anything you can't afford to have mutated.
+**AGY SAFETY — non-negotiable.** AGY in `-p` mode runs its file-edit tool against its working
+directory even when told not to, and `--sandbox` does NOT stop that — it blocks only terminal
+commands (verified 2026-06-15). So **never run AGY in a repo you care about.** Always isolate
+it: run from a throwaway scratch cwd, feed the artifact via **stdin**, and consume only its
+**stdout**, so AGY has no real files to touch and any writes land in the junk dir:
+```
+scratch=$(mktemp -d); <artifact> | ( cd "$scratch" && agy --sandbox -p "<brief>" ) > <out>; rm -rf "$scratch"
+```
+Verified: a sentinel repo survived even an adversarial isolated AGY run. This is
+workflow-isolation, not an OS sandbox — never hand AGY real absolute paths. Can't isolate it?
+Drop AGY and go codex-only.
 
 Working dirs are **per-repo, never global** — created in the current working directory of
 whatever repo you are reviewing in, all under a single `.ensemble/` dir:
@@ -98,7 +106,7 @@ anyway.
    only for a description of defects, then have **Codex** encode AGY's findings into tests on
    a follow-up codex call. Never encode them yourself; you are the fixer.
    ```
-   git diff <base>... | agy --sandbox -p "List falsifiable defects in this diff (logic, edge cases, races, crashes, reproducible security). One line each. Do NOT edit files or run commands."
+   git diff <base>... | ( cd "$(mktemp -d)" && agy --sandbox -p "List falsifiable defects in this diff (logic, edge cases, races, crashes, reproducible security). One line each. Do NOT edit files or run commands." )
    ```
 3. Run the **FULL** suite (e.g. `pytest`, `npm test` — these auto-discover the
    `.ensemble/tests/` tests; do not name the dir on the command line, or the hook blocks
@@ -131,10 +139,10 @@ adjudicate nothing.**
    document. No praise, no restating it. Numbered list; each item: severity
    (high/med/low) + one line of why." > .ensemble/review/<slug>-codex.md
 
-   <target> | agy --sandbox -p "Independently evaluate this <artifact>. Do NOT line-edit it.
+   scratch=$(mktemp -d); <target> | ( cd "$scratch" && agy --sandbox -p "Independently evaluate this <artifact>. Do NOT line-edit it.
    (1) the strongest genuinely DIFFERENT approach and its tradeoffs; (2) what a strong
    version would include that THIS is MISSING; (3) what it gets right that's worth
-   protecting. Specific to THIS document. Numbered list." > .ensemble/review/<slug>-agy.md
+   protecting. Specific to THIS document. Numbered list." ) > .ensemble/review/<slug>-agy.md; rm -rf "$scratch"
    ```
 2. Build a digest by **organizing** — never editing or dismissing — the two raw outputs
    (write it to `.ensemble/review/<slug>-digest.md`):
@@ -176,8 +184,9 @@ anchoring/sycophancy). **Do not build that until explicitly asked.**
 Codex authors tests under `--sandbox workspace-write`; it is *instructed* to write only
 under `.ensemble/tests/`, but `workspace-write` doesn't force that — it could touch app
 code (`danger-full-access` is never used). Branch A step 3 (full-suite re-run) mitigates: a
-peer that secretly patched app code wouldn't leave its own test red. AGY is run `--sandbox`
-and findings-only because in `-p` mode it ignores "don't use tools" and acts on the live
-repo (see **AGY SAFETY**) — and even `--sandbox`'s containment is not fully verified.
-Hardening path: scope each peer's writes to `.ensemble/tests/` specifically (codex `--cd` +
-writable-dir scoping) and confirm AGY's sandbox actually blocks repo mutation.
+peer that secretly patched app code wouldn't leave its own test red. AGY is **isolated** (run
+from a throwaway cwd with the artifact via stdin, stdout only) and findings-only, because
+`--sandbox` does NOT stop its file-edit tool (verified) — isolation, not the flag, is what
+contains it, and only for this review workflow (it is not an OS sandbox). Hardening path: an
+OS-level sandbox (`sandbox-exec` / container) for true containment of both peers, and scoping
+codex's writes to `.ensemble/tests/` specifically (`--cd` + writable-dir scoping).
