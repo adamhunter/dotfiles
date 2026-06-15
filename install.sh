@@ -104,11 +104,10 @@ link "$DOTFILES/claude/hooks" "$HOME_DIR/.claude/hooks"
 chmod +x "$DOTFILES/claude/hooks/"*.sh
 ok "Claude Code configured"
 
-# Cross-tool AGENTS.md: point codex and antigravity at the same canonical file
-mkdir -p "$HOME_DIR/.codex" "$HOME_DIR/.gemini"
-link "$DOTFILES/claude/CLAUDE.md" "$HOME_DIR/.codex/AGENTS.md"
-link "$DOTFILES/claude/CLAUDE.md" "$HOME_DIR/.gemini/AGENTS.md"
-ok "AGENTS.md linked for codex and antigravity"
+# codex/gemini/grok AGENTS.md are intentionally NOT symlinked to claude/CLAUDE.md — each tool's
+# instructions are customized separately. Sharing the agentic orchestrator doc anchored the review
+# peers (it pushed agy to "implement" instead of review); see the ensemble project. Only
+# ~/.claude/CLAUDE.md is linked (above).
 
 # ---------- Claude Code install ----------
 info "Checking Claude Code..."
@@ -189,16 +188,31 @@ else
 fi
 
 # ---------- AI CLI tools ----------
-# antigravity-cli (`agy`) installs via Brewfile; codex stays on npm for now.
+# Peer model CLIs for the ensemble review skill. agy (antigravity-cli) installs via Brewfile;
+# codex via npm; grok (xAI first-party) via its official installer.
 info "Checking AI CLI tools..."
 if command -v npm &>/dev/null; then
   if ! command -v codex &>/dev/null; then
     npm install -g @openai/codex
     command -v asdf &>/dev/null && asdf reshim nodejs
   fi
-  ok "AI CLI tools installed"
+  ok "codex ready"
 else
   warn "npm not found (is asdf nodejs set?), skipping codex install"
+fi
+
+# Grok CLI (`grok`, xAI first-party agentic CLI) — official installer; auth out of band via `grok login`.
+if ! command -v grok &>/dev/null; then
+  curl -fsSL https://x.ai/cli/install.sh | bash
+  ok "Grok CLI installed"
+else
+  ok "Grok CLI already installed"
+fi
+# The grok installer injects a PATH/compinit block into ~/.zshrc (our managed zsh/zshrc). Strip it —
+# grok is reachable via ~/.local/bin, and completions load via zsh/custom/grok.zsh instead.
+if grep -q '# >>> grok installer >>>' "$DOTFILES/zsh/zshrc" 2>/dev/null; then
+  sed -i '' '/# >>> grok installer >>>/,/# <<< grok installer <<</d' "$DOTFILES/zsh/zshrc"
+  ok "stripped grok installer's zshrc injection (using zsh/custom/grok.zsh)"
 fi
 
 # ---------- Shell integration ----------
