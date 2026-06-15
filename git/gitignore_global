@@ -8,3 +8,6 @@
 .vscode/
 
 **/.claude/settings.local.json
+
+.ensemble/
+.antigravitycli/

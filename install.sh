@@ -99,6 +99,9 @@ link "$DOTFILES/claude/keybindings.json" "$HOME_DIR/.claude/keybindings.json"
 link "$DOTFILES/claude/statusline-command.sh" "$HOME_DIR/.claude/statusline-command.sh"
 link "$DOTFILES/claude/CLAUDE.md" "$HOME_DIR/.claude/CLAUDE.md"
 link "$DOTFILES/claude/templates" "$HOME_DIR/.claude/templates"
+link "$DOTFILES/claude/skills" "$HOME_DIR/.claude/skills"
+link "$DOTFILES/claude/hooks" "$HOME_DIR/.claude/hooks"
+chmod +x "$DOTFILES/claude/hooks/"*.sh
 ok "Claude Code configured"
 
 # Cross-tool AGENTS.md: point codex and antigravity at the same canonical file
