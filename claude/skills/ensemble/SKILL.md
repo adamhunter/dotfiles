@@ -19,8 +19,14 @@ or run just the new test — stop. Each silently collapses the mechanism into a 
 model talking to itself.
 
 Peers (both are agentic CLIs; piped stdin is appended to the prompt):
-- Codex: `... | codex exec "<brief>"`  — hostile critic
-- AGY:   `... | agy -p "<brief>"`      — divergent + large-context
+- Codex: `... | codex exec "<brief>"`  — hostile critic. Defaults to a **read-only**
+  sandbox; Branch A test-authoring needs `--sandbox workspace-write` (see Branch A).
+- AGY:   `... | agy --sandbox -p "<brief>"` — divergent + large-context.
+
+**AGY SAFETY — non-negotiable.** In `-p` mode AGY *ignores* "don't use tools / don't edit"
+and will execute tool calls against the **live repo**. NEVER invoke it without `--sandbox`.
+If you can't run it sandboxed, drop AGY and go codex-only. Even sandboxed, its exact
+containment is unverified — don't point AGY at anything you can't afford to have mutated.
 
 Working dirs are **per-repo, never global** — created in the current working directory of
 whatever repo you are reviewing in, all under a single `.ensemble/` dir:
@@ -80,14 +86,20 @@ anyway.
    brief through a file (create it with the **Write tool**, not a Bash heredoc) so your
    launch command stays clean. Put the failing-test brief in e.g.
    `/tmp/ensemble-critic-brief.md` — instruct the peer to write only under the
-   `.ensemble/tests/` directory and print `NO_FINDINGS` if clean — then launch:
+   `.ensemble/tests/` directory and print `NO_FINDINGS` if clean.
+
+   **Codex authors the tests** — it needs write access (its default sandbox is read-only),
+   so run it with `workspace-write`. It is a separate process the hook doesn't govern, so it
+   can write into `.ensemble/tests/`:
    ```
-   git diff <base>... | codex exec "$(cat /tmp/ensemble-critic-brief.md)"
-   git diff <base>... | agy -p     "$(cat /tmp/ensemble-critic-brief.md)"
+   git diff <base>... | codex exec --sandbox workspace-write "$(cat /tmp/ensemble-critic-brief.md)"
    ```
-   The peers are separate processes the hook does not govern, so they can author tests
-   there. If AGY won't author files in this headless setup, capture its findings and have
-   **Codex** encode them — never encode them yourself; you are the fixer.
+   **AGY contributes findings only — it NEVER authors files here.** Run it sandboxed and ask
+   only for a description of defects, then have **Codex** encode AGY's findings into tests on
+   a follow-up codex call. Never encode them yourself; you are the fixer.
+   ```
+   git diff <base>... | agy --sandbox -p "List falsifiable defects in this diff (logic, edge cases, races, crashes, reproducible security). One line each. Do NOT edit files or run commands."
+   ```
 3. Run the **FULL** suite (e.g. `pytest`, `npm test` — these auto-discover the
    `.ensemble/tests/` tests; do not name the dir on the command line, or the hook blocks
    your command). A failing critic test = confirmed defect. Passing = dismissed silently.
@@ -119,7 +131,7 @@ adjudicate nothing.**
    document. No praise, no restating it. Numbered list; each item: severity
    (high/med/low) + one line of why." > .ensemble/review/<slug>-codex.md
 
-   <target> | agy -p "Independently evaluate this <artifact>. Do NOT line-edit it.
+   <target> | agy --sandbox -p "Independently evaluate this <artifact>. Do NOT line-edit it.
    (1) the strongest genuinely DIFFERENT approach and its tradeoffs; (2) what a strong
    version would include that THIS is MISSING; (3) what it gets right that's worth
    protecting. Specific to THIS document. Numbered list." > .ensemble/review/<slug>-agy.md
@@ -161,8 +173,11 @@ anchoring/sycophancy). **Do not build that until explicitly asked.**
 
 ## Known trust gap (v1)
 
-Peers are *instructed* to write only under `.ensemble/tests/`, but nothing forces it —
-they're separate processes the hook doesn't govern. Branch A step 3 (full-suite re-run)
-mitigates: a peer that secretly patched app code wouldn't leave its own test red. Hardening
-path (future): run each peer under a sandbox scoped to the review dir (`codex --sandbox`,
-`agy --sandbox`).
+Codex authors tests under `--sandbox workspace-write`; it is *instructed* to write only
+under `.ensemble/tests/`, but `workspace-write` doesn't force that — it could touch app
+code (`danger-full-access` is never used). Branch A step 3 (full-suite re-run) mitigates: a
+peer that secretly patched app code wouldn't leave its own test red. AGY is run `--sandbox`
+and findings-only because in `-p` mode it ignores "don't use tools" and acts on the live
+repo (see **AGY SAFETY**) — and even `--sandbox`'s containment is not fully verified.
+Hardening path: scope each peer's writes to `.ensemble/tests/` specifically (codex `--cd` +
+writable-dir scoping) and confirm AGY's sandbox actually blocks repo mutation.
