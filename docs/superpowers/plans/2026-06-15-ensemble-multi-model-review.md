@@ -22,8 +22,9 @@
 > nested path all blocked; `.ensemble/review/` + src allowed). Live in-session default-mode
 > block ✓ (the hook blocked real Bash calls here, repeatedly — §6 test 2 passed for real).
 > Codex live smoke ✓. **AGY:** not authenticated (user OAuth pending). **Task 9 (bypass-mode
-> exit-2):** UNVERIFIED — spawning a `--dangerously-skip-permissions` agent was policy-blocked;
-> needs manual confirmation. Tasks 1 & 11 (subagent pressure-tests) deferred by agreement.
+> exit-2):** N/A — verified in normal mode (the only mode in use); the user never runs
+> `--dangerously-skip-permissions`, so the bypass edge case is out of scope. Tasks 1 & 11
+> (subagent pressure-tests) deferred by agreement.
 
 **Goal:** Install a user-level, dotfiles-managed multi-model code/design review system where Claude orchestrates two foreign-model peers (Codex/OpenAI and AGY/Gemini), delivered as a Claude-Code **skill** (`/ensemble`) plus a deterministic `PreToolUse` fixer-lockout hook.
 

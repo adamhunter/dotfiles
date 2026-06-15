@@ -8,17 +8,20 @@
       "Bash(terraform destroy:*)"
     ]
   },
+  "model": "opus[1m]",
   "hooks": {
     "PreToolUse": [
       {
         "matcher": "Edit|Write|MultiEdit|Bash",
         "hooks": [
-          { "type": "command", "command": "bash $HOME/.claude/hooks/protect-ensemble.sh" }
+          {
+            "type": "command",
+            "command": "bash $HOME/.claude/hooks/protect-ensemble.sh"
+          }
         ]
       }
     ]
   },
-  "model": "opus[1m]",
   "statusLine": {
     "type": "command",
     "command": "bash $HOME/.claude/statusline-command.sh"
