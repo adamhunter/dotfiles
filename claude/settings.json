@@ -17,20 +17,14 @@
     "frontend-design@claude-plugins-official": true,
     "superpowers@claude-plugins-official": true,
     "code-review@claude-plugins-official": true,
-    "rcc-claude-plugins@rcc-claude-plugins": true,
-    "ensemble@reasoncorp-ensemble": true
+    "ensemble@reasonable-plugins": true,
+    "reasonable-code-review@reasonable-plugins": true
   },
   "extraKnownMarketplaces": {
-    "rcc-claude-plugins": {
+    "reasonable-plugins": {
       "source": {
         "source": "git",
-        "url": "git@gitlab.com:reasoncorp/dev/rcc-claude-plugins.git"
-      }
-    },
-    "reasoncorp-ensemble": {
-      "source": {
-        "source": "git",
-        "url": "git@gitlab.com:reasoncorp/dev/ensemble.git"
+        "url": "git@gitlab.com:reasoncorp/dev/claude-plugins/reasonable-plugins.git"
       }
     }
   },
