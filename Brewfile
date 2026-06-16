@@ -16,6 +16,8 @@ brew "overmind"
 brew "pnpm"
 brew "googleworkspace-cli" # gws: official Google Workspace admin CLI
 brew "glab" # GitLab CLI (prefer the GitLab MCP first; see CLAUDE.md)
+brew "bats-core" # ensemble plugin: bats test runner for the containment harness
+brew "coreutils" # ensemble plugin: gtimeout — required hard-kill for the runaway-prone agy peer
 cask "antigravity-cli"
 cask "gcloud-cli"
 cask "font-dejavu-sans-mono-nerd-font"
