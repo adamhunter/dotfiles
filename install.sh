@@ -26,6 +26,11 @@ link() {
 # ---------- Homebrew ----------
 info "Checking Homebrew dependencies..."
 if command -v brew &>/dev/null; then
+  # mk (Marked 3 CLI) ships from Brett Terpstra's third-party tap (also declared in the
+  # Brewfile). Newer Homebrew refuses formulae from untrusted taps, so tap and trust just
+  # that one formula before bundling — bundle would otherwise abort on it. Both idempotent.
+  brew tap ttscoff/thelab &>/dev/null || true
+  brew trust --formula ttscoff/thelab/mk &>/dev/null || true
   brew bundle --file="$DOTFILES/Brewfile"
   ok "Brew dependencies installed"
 else
