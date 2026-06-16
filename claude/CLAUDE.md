@@ -28,6 +28,7 @@ Operational rules for the pattern:
 - **Review artifacts, not transcripts.** Workers end with `git diff` + test output; research agents return structured output. The reviewer never reads worker chatter.
 - **Delegate the churn.** Run-fail-tweak debugging loops burn tokens in worker context, not the orchestrator's; the orchestrator adjudicates outcomes only.
 - **Always-loaded files stay lean.** CLAUDE.md and memory indexes are paid at every session start, forever — one-line pointers there, details in linked files.
+- **Handoffs ship with a kickoff prompt.** Whenever I write a handoff / spec / plan doc for a fresh context to pick up, I end that response with a short, copy-pasteable prompt that consumes it — e.g. `Read <path> and <do the thing> per the spec.` So the next session starts in one paste, not by reconstructing the ask.
 
 ## Querying other models — keep them open, don't pre-seed
 
