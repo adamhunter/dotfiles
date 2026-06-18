@@ -12,6 +12,7 @@ brew "ttscoff/thelab/mk" # Marked 3 CLI: `mk file.md` renders in the Marked.app 
 brew "eza"
 brew "ripgrep"
 brew "dotnet"
+brew "powershell" # pwsh: cross-platform PowerShell (homebrew-core formula, not a cask)
 brew "overmind"
 brew "pnpm"
 brew "googleworkspace-cli" # gws: official Google Workspace admin CLI

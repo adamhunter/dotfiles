@@ -148,6 +148,23 @@ else
   warn "uv not found, skipping GAM install"
 fi
 
+# ---------- Azure Artifacts credential provider ----------
+# NuGet plugin that authenticates dotnet/nuget to Azure DevOps Artifacts feeds. No brew
+# formula exists, so use Microsoft's official installer, which drops the netcore plugin into
+# ~/.nuget/plugins (re-run to update). The apphost binary sometimes lands without the exec
+# bit — NuGet launches it directly on macOS, so chmod it (idempotent; fixes prior installs).
+info "Checking Azure Artifacts credential provider..."
+CREDPROVIDER_DIR="$HOME_DIR/.nuget/plugins/netcore/CredentialProvider.Microsoft"
+if [ ! -d "$CREDPROVIDER_DIR" ]; then
+  sh -c "$(curl -fsSL https://aka.ms/install-artifacts-credprovider.sh)"
+  ok "Azure Artifacts credential provider installed"
+else
+  ok "Azure Artifacts credential provider already installed"
+fi
+if [ -f "$CREDPROVIDER_DIR/CredentialProvider.Microsoft" ]; then
+  chmod +x "$CREDPROVIDER_DIR/CredentialProvider.Microsoft"
+fi
+
 # ---------- SDKMAN ----------
 info "Checking SDKMAN..."
 if [ ! -d "$HOME_DIR/.sdkman" ]; then
