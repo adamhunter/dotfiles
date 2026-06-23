@@ -31,6 +31,9 @@ if command -v brew &>/dev/null; then
   # that one formula before bundling — bundle would otherwise abort on it. Both idempotent.
   brew tap ttscoff/thelab &>/dev/null || true
   brew trust --formula ttscoff/thelab/mk &>/dev/null || true
+  # qodana (Qodana CLI) ships from JetBrains' third-party tap; same trust dance as mk above.
+  brew tap jetbrains/utils &>/dev/null || true
+  brew trust --formula jetbrains/utils/qodana &>/dev/null || true
   brew bundle --file="$DOTFILES/Brewfile"
   ok "Brew dependencies installed"
 else

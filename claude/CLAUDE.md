@@ -110,6 +110,7 @@ When commands are interchangeable, prefer:
 - `pnpm` over `npm` / `yarn` for JS package management
 - `asdf` (or project `.tool-versions`) for runtime version pinning
 - `overmind` + `Procfile` for multi-process dev loops
+- when you want me to read a markdown file you've written (plan, design doc, handoff, report), launch it with `mk <file>` — renders it in the Marked.app preview window — rather than dumping the whole thing into chat or just citing the path
 
 ## Match the language and community
 
