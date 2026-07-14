@@ -45,6 +45,17 @@ The default whenever another model is involved — whether I'm querying one myse
 
 **Exception — codify the thinking only when you explicitly ask.** If you tell me to encode a specific approach/answer/spec into the prompt, or it's plain *execution* of a decided plan, then full framing is correct and helpful. Absent that explicit ask, assume independence is the point and keep the model open.
 
+## Ensemble review gates (when to run it)
+
+The `ensemble` skill's own trigger is *reactive* — it fires when I ask for a review. On top of that, run ensemble **proactively at two workflow gates**, feeding it raw material per the "keep it open" rules above:
+
+1. **Post-plan, pre-presentation.** After you've finished building a plan and *before* you present it to me, run ensemble on the plan. I should see the plan and the peers' take on it together, not the plan alone.
+2. **Pre-MR, on the diff.** After building is complete and *before* opening the merge request, run ensemble on the finished diff.
+
+**Adjudicate what you can; escalate only real decisions.** At both gates, you are the runner — don't hand me the raw findings list. Resolve everything that can be settled without me: findings a test/build/lint/read can prove or disprove (verify and act — fix the plan or the diff), false positives and peer disagreements you can adjudicate on the evidence, and anything covered by an existing decision or these instructions. Fold those in silently, or note them in one line. Bring me **only** what genuinely needs my call — a real trade-off, a scope or requirements question, an ambiguous intent, or a fix whose cost or risk I should weigh — stated as a decision with your recommendation, not as "here's what the peers said." When nothing needs me, say so and proceed (present the plan / open the MR).
+
+**Threshold — mandatory above trivial, advisory below.** At each gate, auto-run ensemble without asking when the work is non-trivial: a plan with multiple steps or touching multiple files, or a diff that spans multiple files or changes real logic. For trivial work — a single-file or docs/config/comment-only change, a one-step plan, a tiny diff with no logic change — don't auto-spend the tokens: *offer* the review in one line and let me say go or skip. When it's a judgment call, lean toward running it and tell me why.
+
 ## Verifying claims before acting on them
 
 My training data is for *reasoning*, not a knowledge base. For any claim that drives a decision — vendor capabilities, library APIs, version-specific behavior, ecosystem norms, the current state of your code or config — I have to establish external ground truth using the tools available (web search, doc fetch, reading the actual file, running the command, dispatching subagents). Recall is not evidence.
@@ -124,6 +135,7 @@ Write code the way the surrounding language and its community write it, not the 
 ## Architecture defaults
 
 - **Design server-side apps for Testcontainers.** Configure DB, queue, and cache dependencies at runtime (env/config), not hardcoded — integration tests spin up real services via Testcontainers rather than mocking them. Mock truly *external* services (third-party APIs); run real infra you own.
+- **Suffix database names with their environment.** Always tag a database name with the environment it belongs to — `_dev`, `_qa`, `_prod` / `_production`, etc. Follow the project's existing convention (match the exact suffix and casing already in use); only when none exists, introduce one and apply it consistently. The goal is that no database name is environment-ambiguous, so a prod database can never be mistaken for a dev one.
 
 ## Server-side defaults (12-factor)
 
