@@ -1,4 +1,3 @@
 .DS_Store
-vim/.netrwhist
-python/Library/
-python/usr/
+.claude/settings.local.json
+tmux/plugins/
