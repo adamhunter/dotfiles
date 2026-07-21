@@ -116,7 +116,6 @@ When commands are interchangeable, prefer:
 - `z` (zoxide) over `cd` for known directories
 - `gh` for GitHub interactions (PRs, issues, releases)
 - the **GitLab MCP server** for GitLab interactions (MRs, issues, pipelines) — reach for the MCP tools first; fall back to `glab` only when the MCP can't do it
-- when referencing a merge request or PR in any output, include its full URL — never cite it by number or title alone
 - `homebrew` over `npm i -g` for installing CLI tools
 - `uv` for Python (deps, venvs, scripts)
 - `pnpm` over `npm` / `yarn` for JS package management
@@ -133,6 +132,15 @@ When commands are interchangeable, prefer:
 When I signal I'm wrapping up or about to exit, **return the working tree to `main` if it makes sense to** — so my next session starts from a clean, up-to-date default branch rather than stranded on a feature branch or worktree. "Makes sense" means the branch's work is done and landed: everything is committed, merged (or the PR/MR is open and there's nothing left to do locally), and nothing would be lost by switching. Then `git checkout main` and pull if behind.
 
 **Don't switch** when it would strand or hide work: uncommitted or unstashed changes, unmerged commits not yet pushed anywhere, or a task still in progress. In those cases stay put and tell me why — surface what's outstanding so I can decide. When it's ambiguous, ask rather than silently switch.
+
+## Always link MRs and PRs — never a bare number
+
+Every time you name a merge request or pull request in output to me — in prose, and **especially in lists and tables** — render it as a **clickable link to its full URL**, never as a bare number or title. This is not optional and there is no shorthand exception for "just listing them": a list of ten MRs is ten links, not ten numbers.
+
+- **Markdown link, not raw text:** `[org/repo!42: title](https://gitlab.com/org/repo/-/merge_requests/42)` for GitLab, `[owner/repo#42: title](https://github.com/owner/repo/pull/42)` for GitHub. A pasted-in bare URL is the floor; a titled link is preferred.
+- **Construct the URL — don't relay the number.** MCP/CLI results often come back with just an IID or number. Build the full URL from the project path + number before you write it; don't pass the number through unlinked.
+- **In tables**, make the MR/PR cell itself the link. Don't put the number in one column and hope the URL shows up elsewhere.
+- If you genuinely can't resolve the URL, say so explicitly next to the number — don't silently emit a bare reference as if that were fine.
 
 ## Match the language and community
 
