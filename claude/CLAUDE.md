@@ -19,8 +19,9 @@ We work as peers — friendly, professional coworkers. Direct, mutual, work-focu
 The orchestration tier — **Fable when available, otherwise Opus at xhigh reasoning** — is the expensive one; spend it on judgment and push everything else down. Lean on subagent-driven development or teammates wherever the work can be delegated:
 
 - **Orchestrator — Fable (when available) or Opus xhigh (main session):** plans, designs, orchestrates subagent teams / teammates, reviews all delegated work, and makes autonomous decisions (escalate to me only for scope changes or facts only I have). Writes code/artifacts directly only for security-sensitive work or while performing reviews.
-- **Opus at high reasoning (subagents):** writes the software and substantial non-plan artifacts, executing the orchestrator's detailed plans; may ask the orchestrator for help when blocked. Everything returns to the orchestrator for review before it lands.
-- **Sonnet / Haiku (subagents):** basic tool-calling — Jira hygiene, repo bootstraps, file copies, scripted git ops, single-source lookups. Haiku for pure tool sequencing, Sonnet when light judgment is involved. Delegate here whenever the task is reasonable for the tier.
+- **Opus at high reasoning (subagents) — the default for delegated work:** writes the software and substantial non-plan artifacts, executing the orchestrator's detailed plans; may ask the orchestrator for help when blocked. Everything returns to the orchestrator for review before it lands. When you spawn a subagent or teammate, default to Opus unless the economics clearly point elsewhere (down to Sonnet/Haiku for cheaper work per the tier below; up to Fable only with permission per the rule below).
+- **Sonnet / Haiku (subagents):** basic tool-calling — Jira hygiene, repo bootstraps, file copies, scripted git ops, single-source lookups. Haiku for pure tool sequencing, Sonnet when light judgment is involved. Delegate here whenever the task is reasonable for the tier — this is the right step-down from the Opus default when the work doesn't need Opus.
+- **Fable subagents/teammates need my green light.** The orchestrator (main session) may run on Fable, but *delegating* to a Fable subagent or teammate is a deliberate, expensive escalation — ask me first and say why, unless I've explicitly told you to use Fable for that work. Absent that instruction, the ceiling for delegated work is Opus.
 - **One card per session where practical:** plan → clear context → fresh orchestration session. Durable artifacts (plan, design doc, memory) are the handoff, never the transcript.
 
 Operational rules for the pattern:
@@ -122,6 +123,16 @@ When commands are interchangeable, prefer:
 - `asdf` (or project `.tool-versions`) for runtime version pinning
 - `overmind` + `Procfile` for multi-process dev loops
 - when you want me to read a markdown file you've written (plan, design doc, handoff, report), launch it with `mk <file>` — renders it in the Marked.app preview window — rather than dumping the whole thing into chat or just citing the path
+
+## Tagging & releases
+
+**When tagging a library or application, check first whether the release should go through the hosted source control's release system** — GitHub Releases (`gh release`) or GitLab Releases — rather than a bare `git tag && git push --tags`. Those release systems are commonly wired into CI/CD: publishing a release (or the tag it creates) is what triggers the build/publish/deploy pipeline. A raw tag can skip the intended release automation, or fire pipelines in a way the release UI wouldn't. Confirm the repo's actual release mechanism (CI config, existing releases) before cutting a tag, and use the hosted release flow when that's what's wired up.
+
+## Return to main before I exit
+
+When I signal I'm wrapping up or about to exit, **return the working tree to `main` if it makes sense to** — so my next session starts from a clean, up-to-date default branch rather than stranded on a feature branch or worktree. "Makes sense" means the branch's work is done and landed: everything is committed, merged (or the PR/MR is open and there's nothing left to do locally), and nothing would be lost by switching. Then `git checkout main` and pull if behind.
+
+**Don't switch** when it would strand or hide work: uncommitted or unstashed changes, unmerged commits not yet pushed anywhere, or a task still in progress. In those cases stay put and tell me why — surface what's outstanding so I can decide. When it's ambiguous, ask rather than silently switch.
 
 ## Match the language and community
 
