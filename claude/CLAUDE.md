@@ -116,6 +116,7 @@ When commands are interchangeable, prefer:
 - `z` (zoxide) over `cd` for known directories
 - `gh` for GitHub interactions (PRs, issues, releases)
 - the **GitLab MCP server** for GitLab interactions (MRs, issues, pipelines) — reach for the MCP tools first; fall back to `glab` only when the MCP can't do it
+- `gcp-secret-add` over raw `gcloud secrets create` / `gcloud secrets versions add` when it's available, for writing a value into GCP Secret Manager — it prompts for the value silently (entered twice and compared) and streams it over stdin, so the secret never lands in shell history, `argv`, or the process list. Never pass a secret value via `gcloud … --data="…"`. Fall back to `gcloud` only when `gcp-secret-add` isn't on PATH.
 - `homebrew` over `npm i -g` for installing CLI tools
 - `uv` for Python (deps, venvs, scripts)
 - `pnpm` over `npm` / `yarn` for JS package management
@@ -141,6 +142,14 @@ Every time you name a merge request or pull request in output to me — in prose
 - **Construct the URL — don't relay the number.** MCP/CLI results often come back with just an IID or number. Build the full URL from the project path + number before you write it; don't pass the number through unlinked.
 - **In tables**, make the MR/PR cell itself the link. Don't put the number in one column and hope the URL shows up elsewhere.
 - If you genuinely can't resolve the URL, say so explicitly next to the number — don't silently emit a bare reference as if that were fine.
+
+## Diff Helm releases before applying
+
+**Always run `helm diff upgrade` before a `helm upgrade` or `helm install`** (the `helm-diff` plugin is installed) and show me the diff. Treat a mutating Helm command like a Terraform apply: preview the rendered change against what's live in the cluster, confirm it's what we intend, *then* run the real command. This catches unintended value/template changes, chart-version surprises, and resource deletions before they hit the cluster — never run `helm upgrade --install` blind.
+
+- Use `helm diff upgrade <release> <chart> [--values …]` with the same flags you'd pass the real upgrade, so the preview matches what will actually apply.
+- If the diff is empty, say so — a no-op upgrade is worth flagging rather than running anyway.
+- For a genuinely first-time install with no existing release, note that there's nothing to diff against and proceed after confirming the rendered manifests look right.
 
 ## Match the language and community
 
