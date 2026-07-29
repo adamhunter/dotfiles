@@ -109,10 +109,27 @@ link "$DOTFILES/claude/CLAUDE.md" "$HOME_DIR/.claude/CLAUDE.md"
 link "$DOTFILES/claude/templates" "$HOME_DIR/.claude/templates"
 ok "Claude Code configured"
 
-# codex/gemini/grok AGENTS.md are intentionally NOT symlinked to claude/CLAUDE.md — each tool's
-# instructions are customized separately. Sharing the agentic orchestrator doc anchored the review
-# peers (it pushed agy to "implement" instead of review); see the ensemble project. Only
-# ~/.claude/CLAUDE.md is linked (above).
+# ---------- Codex ----------
+# codex/AGENTS.md is a DISTILLED copy of claude/CLAUDE.md, not a symlink to it: it carries the
+# shared rules and drops the ones tied to Claude Code's own machinery (model delegation, ensemble
+# gates, its plugin/skill/template installation).
+#
+# This supersedes an earlier decision not to link any AGENTS.md at all, whose stated reason was that
+# sharing the agentic orchestrator doc had anchored the ensemble review peers into implementing
+# instead of reviewing. Treat that as an undocumented observation — no transcript or fixture in this
+# repo substantiates it. Two things reduce the risk rather than eliminate it: ensemble-peer.sh
+# overwrites AGENTS.md in the peer worktree with a review-only overlay, and per the documented
+# lookup order (https://developers.openai.com/codex/guides/agents-md.md) that nearer file loads
+# after ~/.codex/AGENTS.md, so it takes precedence; and the distilled file opens by deferring to any
+# nearer read-only-reviewer AGENTS.md. Both files still sit in the peer's prompt, so if peers start
+# implementing again, this link is the first thing to suspect.
+#
+# Keep the two files in sync; see the sync rule at the top of claude/CLAUDE.md.
+# gemini/grok remain deliberately unlinked — their instructions are customized separately.
+info "Linking Codex config..."
+mkdir -p "$HOME_DIR/.codex"
+link "$DOTFILES/codex/AGENTS.md" "$HOME_DIR/.codex/AGENTS.md"
+ok "Codex configured"
 
 # ---------- Claude Code install ----------
 info "Checking Claude Code..."

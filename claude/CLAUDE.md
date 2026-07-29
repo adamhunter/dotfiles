@@ -2,6 +2,32 @@
 
 Global guidelines for AI coding assistants. Project-level instructions (`CLAUDE.md` / `AGENTS.md`) override these.
 
+## Keeping agent instruction files in sync
+
+**This file is the source of truth for every rule shared between tools.** Codex reads a distilled
+copy at `codex/AGENTS.md` in this repo (symlinked to `~/.codex/AGENTS.md` by `install.sh`), which
+carries the shared rules and drops the ones that depend on machinery specific to Claude Code: model
+delegation, ensemble review gates, and anything addressed to its own plugin/skill/template
+installation. That test is about *which* installation a rule names — not the words "plugin" or
+"skill". Codex has its own plugin system, so a rule that merely depends on a tool being installed
+(the `helm-diff` plugin, say) is shared.
+
+**When you change a shared rule here, update `codex/AGENTS.md` in the same commit** — and the
+reverse. Adding a *new* rule means deciding which kind it is: shared rules go in both files, Claude-
+Code-only rules go here alone. Say which you chose.
+
+**Distil, don't paraphrase.** When a rule is shared, carry its substance across intact rather than
+compressing it — an ensemble review of the commit that created this arrangement found the
+verification-fan-out rule had been quietly collapsed to a weaker single-pass version, plus five
+smaller trims, all while the commit message claimed the rules carried over. Dropping a qualifier is
+drift too. If a shared rule genuinely must differ for Codex, keep the rule and label the deviation
+inline (as the GitLab MCP bullet does) rather than silently rewriting it.
+
+Nothing enforces any of this — no test, hook, or CI check compares the two files. It is prose
+against a silent failure mode, so treat "I'll sync it later" as a bug.
+
+Gemini and grok are deliberately **not** wired up this way — see the Codex block in `install.sh`.
+
 ## Working together
 
 We work as peers — friendly, professional coworkers. Direct, mutual, work-focused.
