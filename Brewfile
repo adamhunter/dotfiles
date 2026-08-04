@@ -19,6 +19,7 @@ brew "pnpm"
 brew "googleworkspace-cli" # gws: official Google Workspace admin CLI
 brew "glab" # GitLab CLI (prefer the GitLab MCP first; see CLAUDE.md)
 brew "firebase-cli" # Firebase CLI (npm package is firebase-tools; homebrew-core names it firebase-cli)
+brew "azcopy" # Azure Storage data transfer utility
 brew "actionlint" # static checker for GitHub Actions workflows (pulls in shellcheck)
 brew "jetbrains/utils/qodana" # Qodana CLI: JetBrains code-quality scanner (https://github.com/JetBrains/qodana-cli)
 brew "bats-core" # ensemble plugin: bats test runner for the containment harness
