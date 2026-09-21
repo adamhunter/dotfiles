@@ -28,12 +28,18 @@ azcopy() {
     return
   fi
 
+  # Derive the tenant when there's a session to derive one from -- and when
+  # there isn't, still run azcopy rather than refusing. Gating every invocation
+  # on an az session was wrong: plenty of them need no Entra token at all
+  # (--version, --help, jobs list, and any transfer whose credential is already
+  # in a SAS URL), and `azcopy --version` failing with "run: az login" is just
+  # a lie. For the invocations that genuinely do need a token, azcopy's own
+  # error names the real problem better than a guess from out here can.
   local tenant
   tenant=$(az account show --query tenantId -o tsv 2>/dev/null)
-  if [[ -z $tenant ]]; then
-    print -u2 "azcopy: no Azure CLI session — run: az login"
-    return 1
+  if [[ -n $tenant ]]; then
+    AZCOPY_TENANT_ID=$tenant command azcopy "$@"
+  else
+    command azcopy "$@"
   fi
-
-  AZCOPY_TENANT_ID=$tenant command azcopy "$@"
 }

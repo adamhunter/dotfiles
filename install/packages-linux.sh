@@ -21,6 +21,7 @@ APT_PACKAGES=(
   unzip
   zip               # SDKMAN's installer hard-requires both zip and unzip
   ca-certificates
+  lsb-release       # install_azure_cli reads the suite name from it
   build-essential   # asdf/uv builds compile native extensions
   fzf
   zoxide
@@ -175,6 +176,32 @@ handoff_to_zsh() {
   ok "login shell hands off to zsh from ~/.profile (chsh can't be used on this account)"
 }
 
+# Azure CLI. Not in Ubuntu's repos, and it isn't optional here: zsh/custom/
+# azure.zsh has azcopy borrow az's Entra token rather than keeping a login of
+# its own, so without az there's no token at all -- which is the whole path for
+# uploads to Fabric/OneLake.
+#
+# This is the one place we add a Microsoft apt repo, and deliberately the
+# narrow azure-cli-only one rather than packages-microsoft-prod: the broad repo
+# also carries .NET, which would sit awkwardly beside the user-local ~/.dotnet
+# install chosen above precisely to avoid that conflict.
+# Steps follow https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-linux
+# (apt, Option 2), which lists Ubuntu 24.04 as supported.
+install_azure_cli() {
+  local keyring=/etc/apt/keyrings/microsoft.gpg
+  sudo mkdir -p /etc/apt/keyrings || return 1
+  if [ ! -r "$keyring" ]; then
+    curl -sLS https://packages.microsoft.com/keys/microsoft.asc \
+      | gpg --dearmor | sudo tee "$keyring" >/dev/null || return 1
+    sudo chmod go+r "$keyring" || return 1
+  fi
+  printf 'Types: deb\nURIs: https://packages.microsoft.com/repos/azure-cli/\nSuites: %s\nComponents: main\nArchitectures: %s\nSigned-by: %s\n' \
+    "$(lsb_release -cs)" "$(dpkg --print-architecture)" "$keyring" \
+    | sudo tee /etc/apt/sources.list.d/azure-cli.sources >/dev/null || return 1
+  sudo apt-get update -qq || return 1
+  DEBIAN_FRONTEND=noninteractive sudo apt-get install -y -qq azure-cli
+}
+
 # ---------- main ----------
 
 linux_packages() {
@@ -213,6 +240,7 @@ linux_packages() {
   ensure_binary overmind   install_overmind
   ensure_binary actionlint install_actionlint
   ensure_binary azcopy     install_azcopy
+  ensure_binary az         install_azure_cli
 
   # ---------- .NET ----------
   # No usable apt story: Ubuntu's feed stops at 8.0 and Microsoft's feed
