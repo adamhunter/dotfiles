@@ -1,7 +1,17 @@
-# Google Cloud CLI (installed via the gcloud-cli Homebrew cask).
-# Binaries (gcloud/bq/gsutil) are symlinked onto PATH by brew, so only the
-# optional path/completion includes from the SDK root need sourcing.
-GCLOUD_SDK="${HOMEBREW_PREFIX:-/opt/homebrew}/share/google-cloud-sdk"
-[ -f "$GCLOUD_SDK/path.zsh.inc" ] && . "$GCLOUD_SDK/path.zsh.inc"
-[ -f "$GCLOUD_SDK/completion.zsh.inc" ] && . "$GCLOUD_SDK/completion.zsh.inc"
-unset GCLOUD_SDK
+# Google Cloud CLI. The SDK root depends on how it was installed: the
+# gcloud-cli Homebrew cask on macOS, the snap or the apt package on Linux, or
+# an unpacked tarball in $HOME. In every case the binaries are already on PATH
+# and only the optional path/completion includes need sourcing — so find the
+# first root that has them and stop.
+for _gcloud_sdk in \
+  "${HOMEBREW_PREFIX:-/opt/homebrew}/share/google-cloud-sdk" \
+  /snap/google-cloud-cli/current \
+  /usr/lib/google-cloud-sdk \
+  "$HOME/google-cloud-sdk"
+do
+  [ -f "$_gcloud_sdk/path.zsh.inc" ] || continue
+  . "$_gcloud_sdk/path.zsh.inc"
+  [ -f "$_gcloud_sdk/completion.zsh.inc" ] && . "$_gcloud_sdk/completion.zsh.inc"
+  break
+done
+unset _gcloud_sdk
