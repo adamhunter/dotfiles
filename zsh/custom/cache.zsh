@@ -7,6 +7,10 @@
 # Loads before other custom files (alphabetical), so they can use it.
 _cached_eval() {
   local name="$1" bin="$2"; shift 2
+  # A missing tool is normal on a machine that doesn't have every package
+  # (brew on Linux, say). Do nothing rather than caching — and then sourcing
+  # on every later shell — the empty output of a command that failed.
+  [[ -n $bin && -x $bin ]] || return 0
   local cache="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/${name}.zsh"
   if [[ ! -r "$cache" || "$bin" -nt "$cache" ]]; then
     mkdir -p "${cache:h}"

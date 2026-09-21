@@ -8,7 +8,10 @@ ZSH_THEME="sorin"
 DISABLE_CORRECTION="true"
 
 # Plugins (custom/*.zsh files are sourced automatically by oh-my-zsh)
-plugins=(macos)
+# macos is the only bundled plugin in use, and it's macOS-only — every function
+# it defines shells out to open(1)/osascript, so it's skipped elsewhere.
+plugins=()
+[[ $OSTYPE == darwin* ]] && plugins+=(macos)
 
 set -k
 
@@ -26,3 +29,7 @@ _cached_eval fzf "${commands[fzf]}" fzf --zsh
 
 # zoxide smart cd (use: z <directory>) — cached
 _cached_eval zoxide "${commands[zoxide]}" zoxide init zsh
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
