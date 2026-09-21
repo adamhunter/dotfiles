@@ -1,6 +1,7 @@
 # dotfiles
 
-Personal dotfiles for macOS — zsh, neovim, tmux, git, and AI tooling.
+Personal dotfiles for **macOS** and **Ubuntu Linux** — zsh, neovim, tmux, git,
+and AI tooling. One repo, one installer; it detects the platform.
 
 ## Quick Start
 
@@ -10,31 +11,89 @@ cd dotfiles
 ./install.sh
 ```
 
-The installer is idempotent — safe to re-run anytime.
+The installer is idempotent — safe to re-run anytime. On Linux it uses `sudo`
+for apt and for setting your login shell to zsh; everything else installs
+under `$HOME`.
 
-## What Gets Installed
+If a step fails (a rate-limited release API, an upstream that renamed an
+asset), the installer warns and carries on rather than aborting — re-run it to
+retry just that step.
 
-### Brew Dependencies
+### Login shell
+
+`install.sh` sets your login shell to zsh with `chsh`. On a box where the
+account comes from a directory service rather than `/etc/passwd` — **GCP OS
+Login**, LDAP, SSSD — `chsh` cannot work, because the shell field lives in the
+directory and only an admin can change it. The installer detects this and
+appends a small marked block to `~/.profile` that `exec`s zsh for interactive
+logins instead. Non-interactive bash (`ssh host <command>`, scripts, agent
+subshells) is untouched.
+
+If zsh is ever broken enough to fail at startup, get back in with:
 
 ```bash
-brew bundle  # or let install.sh handle it
+ssh <host> -t bash --noprofile
 ```
 
-neovim, tmux, direnv, asdf, fzf, zoxide, bat, eza, ripgrep, and
-DejaVuSansM Nerd Font Mono.
+## How the two platforms fit together
+
+Package installation is the only genuinely per-platform step. `install.sh`
+detects the OS and calls one function from `install/`:
+
+| | macOS | Linux (Ubuntu/Debian) |
+|---|---|---|
+| Layer | `install/packages-macos.sh` | `install/packages-linux.sh` |
+| Source | `Brewfile` (Homebrew) | apt, plus vendor binaries in `~/.local/bin` |
+
+Everything else — symlinks, oh-my-zsh, runtimes, the AI CLIs — is shared. If
+you add a tool, add it to **both** lists.
+
+### Platform differences
+
+Things that exist on only one side, and why:
+
+| Tool | Where | Why |
+|------|-------|-----|
+| Nerd Font | macOS only | A VM has no local terminal; install the font on whatever machine you type into. |
+| `mk` (Marked 3), `msupdate` | macOS only | Drive macOS apps. |
+| GAM, `googleworkspace-cli` | macOS only | Workspace admin is laptop work; the Linux boxes are for development. |
+| `agy` (antigravity-cli) | macOS only | Cask with no Linux build — the ensemble plugin's agy peer is unavailable on Linux. |
+| `qodana` | macOS only | Not ported; run it from the laptop. |
+| Neovim | apt version skipped | Ubuntu 24.04 ships 0.9.5; this config's plugins want 0.10+, so Linux takes the upstream release tarball. |
+| `bat` | symlinked on Linux | Debian ships the binary as `batcat`; `~/.local/bin/bat` gives it its real name rather than aliasing it. |
+| .NET + PowerShell | different source | Ubuntu's feed stops at 8.0 and Microsoft's conflicts with it on 24.04, so Linux uses the official user-local installer into `~/.dotnet`; `pwsh` comes in as a .NET global tool. |
+| `coreutils` | macOS only | `gtimeout` on Linux is just `timeout`. |
+| conda | neither | Lazy-loaded if you install it; `uv` covers Python here. |
+
+## What Gets Installed
 
 ### Shell (zsh + oh-my-zsh)
 
 - oh-my-zsh installed via standard installer (auto-updates)
 - Theme: sorin
-- Plugins: git, macos
+- Plugins: `macos` on macOS only (it shells out to `open`/`osascript`)
 - Custom files in `zsh/custom/` symlinked to `~/.oh-my-zsh/custom/`
 - fzf integration: `ctrl-r` fuzzy history, `ctrl-t` fuzzy file finder
 - zoxide: `z <dir>` for smart directory jumping
 
+`zsh/custom/*.zsh` files are symlinked on every machine, so each one guards its
+own platform-specific parts — `homebrew.zsh` is a no-op without brew,
+`microsoft.zsh` defines nothing off macOS, and so on.
+
+### Languages and runtimes
+
+| Language | Managed by |
+|---|---|
+| Java | SDKMAN (`sdk install java`) — lazy-loaded in `zsh/custom/sdkman.zsh` |
+| Python | `uv` |
+| C# / .NET | `dotnet` + the Azure Artifacts credential provider (for Azure DevOps NuGet feeds) |
+| TypeScript / Node | asdf (`nodejs` plugin), plus pnpm |
+| Terraform | asdf, pinned to 1.6.6 (brew froze at 1.5.7 over the BUSL relicense) |
+
 ### Neovim
 
-Lua-based config with lazy.nvim plugin manager. Plugins bootstrap on first launch.
+Lua-based config with lazy.nvim plugin manager. Plugins bootstrap on first
+launch. Identical on both platforms.
 
 - **LSP**: ts_ls, gopls, terraformls via nvim-lspconfig
 - **Syntax**: Treesitter
@@ -53,8 +112,11 @@ Leader key: `,`
 Configured for tmux 3.2+ with Claude Code compatibility:
 
 - Mouse support, extended keys (Shift+Enter passthrough)
-- OSC 52 clipboard, iTerm2 passthrough
+- OSC 52 clipboard, terminal passthrough
 - 50,000 line history buffer
+- `default-shell` is resolved at load, not hardcoded (`/bin/zsh` vs `/usr/bin/zsh`)
+- Copy (`prefix + y`) goes out over OSC 52, so it reaches your local clipboard
+  even when tmux is running on a remote box
 
 ### Git
 
@@ -64,28 +126,19 @@ Configured for tmux 3.2+ with Claude Code compatibility:
 
 ### AI Tools
 
-```bash
-# Claude Code (primary) — installed by install.sh
-curl -fsSL https://claude.ai/install.sh | bash
+Claude Code, Codex, and Grok are installed by `install.sh` on both platforms.
+Claude Code config (settings, keybindings, statusline) lives in `claude/` and is
+symlinked to `~/.claude/`; `codex/AGENTS.md` is symlinked to `~/.codex/`.
 
-# Gemini CLI
-npm install -g @google/gemini-cli
+## Terminal Setup
 
-# Codex
-npm install -g @openai/codex
-```
-
-Claude Code config (settings, keybindings, statusline) is managed in `claude/`
-and symlinked to `~/.claude/`.
-
-## iTerm2 Setup
-
-Required for full compatibility with tmux and Claude Code.
+The terminal is on the machine you type at, so this applies to your local
+terminal whether you're working on macOS directly or SSH'd into a Linux box.
 
 ### Shift+Enter (Required for Claude Code)
 
-1. Open **iTerm2 → Settings → Profiles → Keys → General**
-2. Set **"Report modifiers using CSI u"** to **Yes**
+iTerm2: **Settings → Profiles → Keys → General**, set **"Report modifiers using
+CSI u"** to **Yes**.
 
 ### Recommended Profile Settings
 
@@ -108,7 +161,7 @@ tmux
 
 ## Modern Shell Tools
 
-All installed via Brewfile, no aliases — use by name:
+No aliases — use by name:
 
 | Tool | What it does |
 |------|-------------|
@@ -117,3 +170,4 @@ All installed via Brewfile, no aliases — use by name:
 | `bat` | cat with syntax highlighting |
 | `eza` | Modern ls with git status and icons |
 | `ripgrep` | Fast grep (also used by Telescope) |
+| `glow` | Render markdown in the terminal |
