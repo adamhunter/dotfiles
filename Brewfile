@@ -1,3 +1,7 @@
+# macOS package list, consumed by install/packages-macos.sh.
+# The Linux equivalent lives in install/packages-linux.sh, which documents which
+# entries below have no Linux counterpart and why. Keep the two in step.
+
 tap "ttscoff/thelab" # Brett Terpstra's tap; home of the Marked 3 CLI (mk)
 tap "jetbrains/utils" # JetBrains' tap; home of the Qodana CLI
 brew "git" # real binary; bypasses the slow /usr/bin/git Xcode shim
