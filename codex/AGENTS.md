@@ -5,17 +5,17 @@ directory) override these.
 
 > **Distilled from `claude/CLAUDE.md` in this dotfiles repo.** That file is the source of truth for
 > every rule shared between tools; this one drops the rules that depend on machinery specific to
-> Claude Code — its model-delegation tiers, its ensemble review gates, and anything addressed to its
-> own plugin/skill/template installation. That is about *which* installation a rule names, not about
-> the words "plugin" or "skill": Codex has its own plugin system, and a rule that merely depends on
-> a tool being installed (the `helm-diff` plugin, say) is shared and belongs here. When either file
-> changes a shared rule, both get updated in the same commit — see "Keeping agent instruction files
-> in sync" in `claude/CLAUDE.md`.
+> Claude Code — its model-delegation tiers and anything addressed to its own plugin/skill/template
+> installation. That is about *which* installation a rule names, not about the words "plugin" or
+> "skill": Codex has its own plugin system, and a rule that merely depends on a tool being installed
+> (the `helm-diff` plugin, say) is shared and belongs here. When either file changes a shared rule,
+> both get updated in the same commit — see "Keeping agent instruction files in sync" in
+> `claude/CLAUDE.md`.
 
 ## Read-only review contexts take precedence
 
 If an `AGENTS.md` closer to the working directory says you are a **read-only reviewer** — for
-example the ensemble harness, which drops a review-only overlay into a disposable worktree — that
+example a review harness that drops a review-only overlay into a disposable worktree — that
 instruction **wins over everything in this file**. Do not implement, fix, or refactor in that
 context, however strongly the rules below read as a mandate to build. Produce the review artifact
 you were asked for and stop.
@@ -149,7 +149,7 @@ When commands are interchangeable, prefer:
 - `z` (zoxide) over `cd` for known directories
 - `gh` for GitHub interactions (PRs, issues, releases)
 - for GitLab (MRs, issues, pipelines): the **GitLab MCP server** when one is configured, falling back to `glab`. *Codex-specific note:* `codex mcp list` currently reports no configured servers, so in practice this means `glab` today — the MCP-first preference still applies the moment one is added.
-- `gcp-secret-add` over raw `gcloud secrets create` / `gcloud secrets versions add` when it's available, for writing a value into GCP Secret Manager — it prompts for the value silently (entered twice and compared) and streams it over stdin, so the secret never lands in shell history, `argv`, or the process list. Never pass a secret value via `gcloud … --data="…"`. Fall back to `gcloud` only when `gcp-secret-add` isn't on PATH.
+- `gcp-secret-add` over raw `gcloud secrets create` / `gcloud secrets versions add` when it's available, for writing a value into GCP Secret Manager — it prompts for the value silently (entered twice and compared) and streams it over stdin, so the secret never lands in shell history, `argv`, or the process list. Never pass a secret value via `gcloud … --data="…"`. Fall back to `gcloud` only when `gcp-secret-add` isn't on PATH. On first creation, always pass `--locations` with a US region (e.g. `--locations=us-central1`) — the org's resource-location policy rejects the default automatic replication policy, which isn't confined to the US.
 - `homebrew` over `npm i -g` for installing CLI tools
 - `uv` for Python (deps, venvs, scripts)
 - `pnpm` over `npm` / `yarn` for JS package management

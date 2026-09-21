@@ -7,17 +7,17 @@ Global guidelines for AI coding assistants. Project-level instructions (`CLAUDE.
 **This file is the source of truth for every rule shared between tools.** Codex reads a distilled
 copy at `codex/AGENTS.md` in this repo (symlinked to `~/.codex/AGENTS.md` by `install.sh`), which
 carries the shared rules and drops the ones that depend on machinery specific to Claude Code: model
-delegation, ensemble review gates, and anything addressed to its own plugin/skill/template
-installation. That test is about *which* installation a rule names — not the words "plugin" or
-"skill". Codex has its own plugin system, so a rule that merely depends on a tool being installed
-(the `helm-diff` plugin, say) is shared.
+delegation and anything addressed to its own plugin/skill/template installation. That test is about
+*which* installation a rule names — not the words "plugin" or "skill". Codex has its own plugin
+system, so a rule that merely depends on a tool being installed (the `helm-diff` plugin, say) is
+shared.
 
 **When you change a shared rule here, update `codex/AGENTS.md` in the same commit** — and the
 reverse. Adding a *new* rule means deciding which kind it is: shared rules go in both files, Claude-
 Code-only rules go here alone. Say which you chose.
 
 **Distil, don't paraphrase.** When a rule is shared, carry its substance across intact rather than
-compressing it — an ensemble review of the commit that created this arrangement found the
+compressing it — a review of the commit that created this arrangement found the
 verification-fan-out rule had been quietly collapsed to a weaker single-pass version, plus five
 smaller trims, all while the commit message claimed the rules carried over. Dropping a qualifier is
 drift too. If a shared rule genuinely must differ for Codex, keep the rule and label the deviation
@@ -73,7 +73,7 @@ Every tier is a judgment tool — the split is not who's smart, it's **known wor
 
 - **Top level (main session — usually Fable, sometimes Opus):** explores the problem with me, plans, designs, orchestrates subagent teams / teammates, reviews all delegated work, and makes autonomous decisions (escalate to me only for scope changes or facts only I have). Writes code/artifacts directly only for security-sensitive work or while performing reviews.
 - **Sonnet (subagents) — executes plans; writes almost all of our code:** any plan produced at the top level — by Fable or Opus — goes to Sonnet for execution, regardless of complexity. Also handles all basic mechanical work whether planned or not: Jira hygiene, repo bootstraps, file copies, scripted git ops, single-source lookups, routine edits. May ask the orchestrator for help when blocked. Everything returns to the orchestrator for review before it lands. **Escalation valve:** if a worker fails or blocks on the same step twice, pull the step back to the top level — re-plan it, or escalate *that step* to Opus (standing-approved) — rather than letting the worker loop and burn budget.
-- **Opus (subagents) — spikes and exploration:** unknown work that must be explored before it can be planned — open-ended debugging, root-cause hunts, design exploration, research. Its findings come back to the top level and feed a plan; the plan still executes on Sonnet. If a plan already exists, don't reach for Opus; unplanned-but-mechanical work stays on Sonnet.
+- **Opus (subagents) — spikes and exploration:** unknown work that must be explored before it can be planned — open-ended debugging, root-cause hunts, design exploration, research, and exploratory requirements-gathering on complex workflows. Sonnet does well when handed the facts; Opus is for *finding* them when the path is ambiguous. **Tier test before dispatching:** if you can write the worker's steps and stop conditions up front, it's Sonnet; if the worker must decide what to look at next based on what it finds, it's Opus — and doubt about which tier applies is itself the Opus signal, never a reason to default down. Its findings come back to the top level and feed a plan; the plan still executes on Sonnet. If a plan already exists, don't reach for Opus; unplanned-but-mechanical work stays on Sonnet.
 - **Haiku (subagents):** pure tool sequencing — a further step down from Sonnet when the task is purely scripted.
 - **Fable subagents/teammates need my green light.** The top level (main session) may run on Fable, but *delegating* to a Fable subagent or teammate is a deliberate, expensive escalation — ask me first and say why, unless I've explicitly told you to use Fable for that work. Absent that instruction, the ceiling for delegated work is Opus.
 - **One card per session where practical:** plan → clear context → fresh orchestration session. Durable artifacts (plan, design doc, memory) are the handoff, never the transcript.
@@ -88,7 +88,7 @@ Operational rules for the pattern:
 
 ## Querying other models — keep them open, don't pre-seed
 
-The default whenever another model is involved — whether I'm querying one myself (peer review, second opinion, cross-model verification, an ensemble reviewer) **or you ask me to draft a prompt that will be handed to another LLM** — is to **leave that model open to generate its own ideas.** The value of a different model is that its ideas and errors are **decorrelated** from mine; pre-seeding it with my analysis, hypothesis, conclusion, or preferred approach destroys that — it anchors the model to my framing, re-correlates its output with mine, and turns an outside check into an echo of myself. Higher confidence, no higher accuracy (sycophancy/anchoring); and if my framing was wrong, a confidently compounded error.
+The default whenever another model is involved — whether I'm querying one myself (peer review, second opinion, cross-model verification) **or you ask me to draft a prompt that will be handed to another LLM** — is to **leave that model open to generate its own ideas.** The value of a different model is that its ideas and errors are **decorrelated** from mine; pre-seeding it with my analysis, hypothesis, conclusion, or preferred approach destroys that — it anchors the model to my framing, re-correlates its output with mine, and turns an outside check into an echo of myself. Higher confidence, no higher accuracy (sycophancy/anchoring); and if my framing was wrong, a confidently compounded error.
 
 **Default — keep it open** (assume this unless you tell me otherwise):
 
@@ -99,17 +99,6 @@ The default whenever another model is involved — whether I'm querying one myse
 - **Never show one queried model another's output** when I want N independent takes — that manufactures agreement, not corroboration.
 
 **Exception — codify the thinking only when you explicitly ask.** If you tell me to encode a specific approach/answer/spec into the prompt, or it's plain *execution* of a decided plan, then full framing is correct and helpful. Absent that explicit ask, assume independence is the point and keep the model open.
-
-## Ensemble review gates (when to run it)
-
-The `ensemble` skill's own trigger is *reactive* — it fires when I ask for a review. On top of that, run ensemble **proactively at two workflow gates**, feeding it raw material per the "keep it open" rules above:
-
-1. **Post-plan, pre-presentation.** After you've finished building a plan and *before* you present it to me, run ensemble on the plan. I should see the plan and the peers' take on it together, not the plan alone.
-2. **Pre-MR, on the diff.** After building is complete and *before* opening the merge request, run ensemble on the finished diff.
-
-**Adjudicate what you can; escalate only real decisions.** At both gates, you are the runner — don't hand me the raw findings list. Resolve everything that can be settled without me: findings a test/build/lint/read can prove or disprove (verify and act — fix the plan or the diff), false positives and peer disagreements you can adjudicate on the evidence, and anything covered by an existing decision or these instructions. Fold those in silently, or note them in one line. Bring me **only** what genuinely needs my call — a real trade-off, a scope or requirements question, an ambiguous intent, or a fix whose cost or risk I should weigh — stated as a decision with your recommendation, not as "here's what the peers said." When nothing needs me, say so and proceed (present the plan / open the MR).
-
-**Threshold — mandatory above trivial, advisory below.** At each gate, auto-run ensemble without asking when the work is non-trivial: a plan with multiple steps or touching multiple files, or a diff that spans multiple files or changes real logic. For trivial work — a single-file or docs/config/comment-only change, a one-step plan, a tiny diff with no logic change — don't auto-spend the tokens: *offer* the review in one line and let me say go or skip. When it's a judgment call, lean toward running it and tell me why.
 
 ## Verifying claims before acting on them
 
@@ -172,7 +161,7 @@ When commands are interchangeable, prefer:
 - `z` (zoxide) over `cd` for known directories
 - `gh` for GitHub interactions (PRs, issues, releases)
 - the **GitLab MCP server** for GitLab interactions (MRs, issues, pipelines) — reach for the MCP tools first; fall back to `glab` only when the MCP can't do it
-- `gcp-secret-add` over raw `gcloud secrets create` / `gcloud secrets versions add` when it's available, for writing a value into GCP Secret Manager — it prompts for the value silently (entered twice and compared) and streams it over stdin, so the secret never lands in shell history, `argv`, or the process list. Never pass a secret value via `gcloud … --data="…"`. Fall back to `gcloud` only when `gcp-secret-add` isn't on PATH.
+- `gcp-secret-add` over raw `gcloud secrets create` / `gcloud secrets versions add` when it's available, for writing a value into GCP Secret Manager — it prompts for the value silently (entered twice and compared) and streams it over stdin, so the secret never lands in shell history, `argv`, or the process list. Never pass a secret value via `gcloud … --data="…"`. Fall back to `gcloud` only when `gcp-secret-add` isn't on PATH. On first creation, always pass `--locations` with a US region (e.g. `--locations=us-central1`) — the org's resource-location policy rejects the default automatic replication policy, which isn't confined to the US.
 - `homebrew` over `npm i -g` for installing CLI tools
 - `uv` for Python (deps, venvs, scripts)
 - `pnpm` over `npm` / `yarn` for JS package management
