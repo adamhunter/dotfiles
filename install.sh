@@ -318,4 +318,11 @@ if have eza; then ok "eza ready"; fi
 if have rg; then ok "ripgrep ready"; fi
 
 echo ""
+# The Brewfile step skips itself without brew, and its warning scrolls away under
+# everything after it — repeat it here, where it gets read.
+if [ "$OS" = macos ] && ! have brew; then
+  warn "Homebrew isn't installed, so the Brewfile (tmux, fonts, most CLI tools) was skipped."
+  warn "Install it, open a new terminal, then re-run install.sh:"
+  printf '    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"\n'
+fi
 info "Done! Open a new terminal or run: source ~/.zshrc"
