@@ -3,12 +3,27 @@
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "permissions": {
+    "allow": [
+      "Bash(~/.bin/flag-me:*)"
+    ],
     "deny": [
       "Bash(terraform apply:*)",
       "Bash(terraform destroy:*)"
     ]
   },
-  "model": "opus[1m]",
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "permission_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.bin/flag-me --hook"
+          }
+        ]
+      }
+    ]
+  },
   "statusLine": {
     "type": "command",
     "command": "bash $HOME/.claude/statusline-command.sh"
@@ -18,7 +33,8 @@
     "superpowers@claude-plugins-official": true,
     "code-review@claude-plugins-official": true,
     "ensemble@reasonable-plugins": true,
-    "reasonable-code-review@reasonable-plugins": true
+    "reasonable-code-review@reasonable-plugins": true,
+    "pyright-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "reasonable-plugins": {
@@ -28,8 +44,27 @@
       }
     }
   },
-  "effortLevel": "xhigh",
+  "effortLevel": "high",
+  "modelSettings": {
+    "claude-fable-5-1": {
+      "effortLevel": "high"
+    },
+    "claude-opus-5": {
+      "effortLevel": "high"
+    },
+    "claude-opus-5-5": {
+      "effortLevel": "high"
+    },
+    "claude-sonnet-5-5": {
+      "effortLevel": "high"
+    }
+  },
+  "voice": {
+    "enabled": false,
+    "mode": "hold"
+  },
   "skipWorkflowUsageWarning": true,
   "theme": "dark",
-  "skipAutoPermissionPrompt": true
+  "agentPushNotifEnabled": true,
+  "voiceEnabled": false
 }

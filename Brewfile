@@ -29,6 +29,8 @@ brew "actionlint" # static checker for GitHub Actions workflows (pulls in shellc
 brew "jetbrains/utils/qodana" # Qodana CLI: JetBrains code-quality scanner (https://github.com/JetBrains/qodana-cli)
 brew "bats-core" # ensemble plugin: bats test runner for the containment harness
 brew "coreutils" # ensemble plugin: gtimeout — required hard-kill for the runaway-prone agy peer
+brew "duckdb"
 cask "antigravity-cli"
 cask "gcloud-cli"
 cask "font-dejavu-sans-mono-nerd-font"
+brew "terminal-notifier" # bin/flag-me: macOS banners when an agent session needs me
