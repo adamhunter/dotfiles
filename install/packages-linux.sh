@@ -6,6 +6,7 @@
 #     Nerd Font. A VM has no local terminal, so the font belongs on whatever
 #     machine you actually type into; gcloud comes from apt/snap instead.
 #   - mk (Marked 3 CLI) drives a macOS app, and msupdate is macOS-only.
+#   - terminal-notifier posts macOS banners; bin/flag-me is a no-op on Linux.
 #   - googleworkspace-cli / GAM are Workspace admin tooling, deliberately
 #     macOS-only (see install.sh).
 #   - coreutils is unnecessary: gtimeout here is just `timeout`.

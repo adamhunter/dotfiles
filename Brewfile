@@ -32,3 +32,4 @@ brew "coreutils" # ensemble plugin: gtimeout — required hard-kill for the runa
 cask "antigravity-cli"
 cask "gcloud-cli"
 cask "font-dejavu-sans-mono-nerd-font"
+brew "terminal-notifier" # bin/flag-me: macOS banners when an agent session needs me

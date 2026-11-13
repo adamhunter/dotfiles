@@ -3,9 +3,25 @@
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "permissions": {
+    "allow": [
+      "Bash(~/.bin/flag-me:*)"
+    ],
     "deny": [
       "Bash(terraform apply:*)",
       "Bash(terraform destroy:*)"
+    ]
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "permission_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.bin/flag-me --hook"
+          }
+        ]
+      }
     ]
   },
   "model": "opus[1m]",
